@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block title %}
+Router Config Generator
+{% endblock %}
+{% block content %}
+<h1>Router Config Generator v0.1</h1>
+<div class="form-wrapper">
+    <form method="POST" action="{{ url_for('home') }}">
+
+        <fieldset class="form-field">
+            {{ form.rtrHostname.label }}
+            {{ form.rtrHostname }}
+        </fieldset>
+
+        <fieldset class="form-field">
+            {{ form.dnsSuffix.label }}
+            {{ form.dnsSuffix }}
+        </fieldset>
+
+        <fieldset class="form-field">
+            {{ form.tzName.label }}
+            {{ form.tzName }}
+        </fieldset>
+
+        <fieldset class="form-field">
+            {{ form.tzOffset.label }}
+            {{ form.tzOffset }}
+        </fieldset>
+
+        <fieldset class="form-field">
+            {{ form.dnsResolverPrimary.label }}
+            {{ form.dnsResolverPrimary }}
+        </fieldset>
+
+        {{ form.generate }}
+
+    </form>
+  </div>
+{% endblock %}
