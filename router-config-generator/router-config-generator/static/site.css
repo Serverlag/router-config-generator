@@ -25,3 +25,6 @@
     padding: 5px;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+.errors {
+    color: red
+}

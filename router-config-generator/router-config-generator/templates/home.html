@@ -30,6 +30,65 @@ Router Config Generator
         <fieldset class="form-field">
             {{ form.dnsResolverPrimary.label }}
             {{ form.dnsResolverPrimary }}
+            {% if form.dnsResolverPrimary.errors %}
+            <ul class="errors">
+              {% for error in form.dnsResolverPrimary.errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </fieldset>
+
+        <fieldset class="form-field">
+            {{ form.dnsResolverSecondary.label }}
+            {{ form.dnsResolverSecondary }}
+            {% if form.dnsResolverSecondary.errors %}
+            <ul class="errors">
+              {% for error in form.dnsResolverSecondary.errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </fieldset>
+
+        <fieldset class="form-field">
+            {{ form.rtrAdminUsername.label }}
+            {{ form.rtrAdminUsername }}
+        </fieldset>
+
+        <fieldset class="form-field">
+            {{ form.rtrAdminPassword.label }}
+            {{ form.rtrAdminPassword }}
+        </fieldset>
+
+        <fieldset class="form-field">
+            {{ form.lanIPAddress.label }}
+            {{ form.lanIPAddress }}
+        </fieldset>
+
+        <fieldset class="form-field">
+            {{ form.lanCidrPrefixSize.label }}
+            {{ form.lanCidrPrefixSize }}
+        </fieldset>
+
+        <fieldset class="form-field">
+            {{ form.wanTechnologyType.label }}
+            {{ form.wanTechnologyType }}
+        </fieldset>
+
+        <fieldset class="form-field">
+            {{ form.wanAuthType.label }}
+            {{ form.wanAuthType }}
+        </fieldset>
+
+        <fieldset class="form-field">
+            {{ form.rtrVendor.label }}
+            {{ form.rtrVendor }}
+        </fieldset>
+
+        <fieldset class="form-field">
+            {{ form.rtrSeries.label }}
+            {{ form.rtrSeries }}
         </fieldset>
 
         {{ form.generate }}
