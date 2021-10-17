@@ -1,7 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
-from wtforms.fields.core import SelectField
-from wtforms.fields.simple import PasswordField
+from wtforms import StringField, SubmitField, SelectField, PasswordField
 from wtforms.validators import DataRequired, IPAddress
 
 class configForm(FlaskForm):
@@ -44,7 +42,7 @@ class configForm(FlaskForm):
         'LAN Prefix Size (CIDR)', choices=[('/31'), ('/30'), ('/29'), ('/28'), ('/27'), ('/26'), ('/25'), ('/24'), ('/23'), ('/22'), ('/21'), ('/20'), ('/19'), ('/18'), ('/17'), ('/16')]
     )
     wanTechnologyType = SelectField(
-        'Service Technology Type', choices=[('FTTP'), ('FTTC'), ('HFC'), ('FTTN')]
+        'Service Technology Type', choices=[('FTTP'), ('FTTC'), ('FTTN'), ('HFC')]
     )
     wanAuthType = SelectField(
         'Service Authentication Type', choices=[('IPoE (DHCP)'), ('PPPoE (Username/Password)')]

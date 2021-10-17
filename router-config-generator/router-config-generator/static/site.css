@@ -1,5 +1,13 @@
+body {
+    background-color: white;
+}
+
+.body-content {
+    font-family:'Segoe UI', Tahoma, Verdana, sans-serif;
+}
+
 .navbar {
-    background-color: lightslategray;
+    background-color: #192231;
     font-size: 1em;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     color: white;
@@ -21,10 +29,58 @@
     margin-left: 30px;
 }
 
-.body-content {
-    padding: 5px;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+.title {
+    text-align: center;
+    color: black;
 }
+
+.form-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.form-wrapper input[type=submit]{
+    display: grid;
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: auto;
+    height: 45px;
+    width: 155px;
+    background-color:#192231;
+    color: white;
+    font-weight: bold;
+    border-color: #192231;
+}
+
+.form-wrapper input[type=submit]:hover{
+    display: grid;
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: auto;
+    height: 45px;
+    width: 155px;
+    background-color: white;
+    color: #192231;
+    font-weight: bold;
+    border-color: #192231;
+}
+
+.form-field {
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    flex-direction: row;
+    width: 550px;
+    background-color: white;
+    flex-wrap: wrap;
+}
+
+.form-field input{
+    width: 300px;
+}
+
 .errors {
-    color: red
+    color: red;
 }
