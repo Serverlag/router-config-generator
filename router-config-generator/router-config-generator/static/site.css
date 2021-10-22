@@ -84,3 +84,9 @@ body {
 .errors {
     color: red;
 }
+
+.cisco-router-config {
+    display: flex;
+    justify-content: center;
+    text-align: left;
+}

@@ -1,0 +1,100 @@
+{% extends "layout.html" %}
+{% block title %}
+Router Config Generator
+{% endblock %}
+{% block content %}
+<div class="title">
+<h1>Router Config Generator</h1>
+{% if rtrVendor == 'Cisco' %}
+<div class="cisco-router-config">
+service tcp-keepalives-out <br/>
+service timestamps debug datetime localtime show-timezone year <br/>
+service timestamps log datetime localtime show-timezone year <br/>
+service password-encryption <br/>
+service sequence-numbers <br/>
+! <br/>
+hostname {{ rtrHostname }} <br/>
+! <br/>
+logging buffered 51200 informational <br/>
+! <br/>
+aaa new-model <br/>
+! <br/>
+aaa authentication login default local <br/>
+aaa authorization console <br/>
+aaa authorization exec default local <br/>
+! <br/>
+clock timezone {{ tzName }} {{ tzOffset }} <br/>
+! <br/>
+ip domain name {{ dnsSuffix }} <br/>
+ip name-server {{ dnsResolverPrimary }} <br/>
+ip name-server {{ dnsResolverSecondary }} <br/>
+! <br/>
+ip inspect name FWv4 tcp router-traffic <br/>
+ip inspect name FWv4 udp router-traffic <br/>
+ip inspect name FWv4 icmp <br/>
+! <br/>
+archive <br/>
+log config <br/>
+logging enable <br/>
+notify syslog contenttype plaintext <br/>
+hidekeys <br/>
+! <br/>
+username {{ rtrAdminUsername }} privelege 15 secret 0 {{ rtrAdminPassword }} <br/>
+! <br/>
+no cdp run <br/>
+! <br/>
+no ip http server <br/>
+no ip http secure-server <br/>
+! <br/>
+crypto key generate rsa modulus 2048 <br/>
+! <br/>
+ip access-list extended ACL-INFRASTRUCTURE-IN <br/>
+deny ip 0.0.0.0 0.255.255.255 any <br/>
+deny ip 10.0.0.0 0.255.255.255 any <br/>
+deny ip 127.0.0.0 0.255.255.255 any <br/>
+deny ip 169.254.0.0 0.0.255.255 any <br/>
+deny ip 172.16.0.0 0.15.255.255 any <br/>
+deny ip 192.168.0.0 0.0.255.255 any <br/>
+deny ip 198.18.0.0 0.0.255.255 any <br/>
+deny ip 224.0.0.0 31.255.255.255 any <br/>
+deny tcp any any fragments <br/>
+deny udp any any fragments <br/>
+deny icmp any any fragments <br/>
+permit icmp any any echo <br/>
+permit icmp any any echo-reply <br/>
+permit icmp any any time-exceeded <br/>
+permit icmp any any unreachable <br/>
+permit icmp any any packet-too-big <br/>
+deny ip any any log <br/>
+! <br/>
+line con 0 <br/>
+exec-timeout 30 0  <br/>
+no modem enable  <br/>
+line aux 0  <br/>
+exec-timeout 0 1  <br/>
+no exec <br/>
+transport output none <br/>
+line vty 0 4 <br/>
+access-class MGMT-IN in <br/>
+exec-timeout 30 0 <br/>
+logging synchronous <br/>
+transport input ssh <br/>
+! <br/>
+ntp server 202.89.184.139 <br/>
+ntp server 203.206.171.84 <br/>
+ntp server 220.233.200.157 <br/>
+! <br/>
+ip access-list extended MGMT-IN <br/>
+permit tcp 192.168.0.0 0.0.255.255 any eq 22 <br/>
+permit tcp 172.16.0.0 0.15.255.255 any eq 22 <br/>
+permit tcp 10.0.0.0 0.255.255.255 any eq 22 <br/>
+! <br/>
+{{ lanIPAddress }} <br/>
+{{ lanCidrPrefixSize }} <br/>
+{{ wanTechnologyType }} <br/>
+{{ wanAuthType }} <br/>
+{{ rtrSeries }} <br/>
+</div>
+{% endif %}
+  </div>
+{% endblock %}
