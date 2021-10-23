@@ -1,8 +1,7 @@
-# Entry point for the application.
-from . import app    # For application discovery by the 'flask' command.
-from . import views  # For import side-effects of setting up routes.
+from . import app
+from . import views
 
-# TODO: #1 Move secret key to env file and load configuration early in app launch
+# TODO: #1 Move secret key to env file and load configuration to be more secure
 import os
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
