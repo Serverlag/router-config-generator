@@ -10,7 +10,7 @@ Router Config Generator
     <form method="POST" action="{{ url_for('home') }}">
       {{ form.hidden_tag() }}
 
-      <fieldset class="form-field">
+        <fieldset class="form-field">
             {{ form.rtrHostname.label }}
             {{ form.rtrHostname }}
         </fieldset>
@@ -31,11 +31,11 @@ Router Config Generator
         </fieldset>
 
         <fieldset class="form-field">
-            {{ form.dnsResolverPrimary.label }}
-            {{ form.dnsResolverPrimary }}
-            {% if form.dnsResolverPrimary.errors %}
+            {{ form.dnsResolverPrimaryIPv4.label }}
+            {{ form.dnsResolverPrimaryIPv4 }}
+            {% if form.dnsResolverPrimaryIPv4.errors %}
             <ul class="errors">
-              {% for error in form.dnsResolverPrimary.errors %}
+              {% for error in form.dnsResolverPrimaryIPv4.errors %}
                 <li>{{ error }}</li>
               {% endfor %}
             </ul>
@@ -43,11 +43,11 @@ Router Config Generator
         </fieldset>
 
         <fieldset class="form-field">
-            {{ form.dnsResolverSecondary.label }}
-            {{ form.dnsResolverSecondary }}
-            {% if form.dnsResolverSecondary.errors %}
+            {{ form.dnsResolverSecondaryIPv4.label }}
+            {{ form.dnsResolverSecondaryIPv4 }}
+            {% if form.dnsResolverSecondaryIPv4.errors %}
             <ul class="errors">
-              {% for error in form.dnsResolverSecondary.errors %}
+              {% for error in form.dnsResolverSecondaryIPv4.errors %}
                 <li>{{ error }}</li>
               {% endfor %}
             </ul>
@@ -65,11 +65,11 @@ Router Config Generator
         </fieldset>
 
         <fieldset class="form-field">
-            {{ form.lanIPAddress.label }}
-            {{ form.lanIPAddress }}
-            {% if form.dnsResolverPrimary.errors %}
+            {{ form.lanIPv4Address.label }}
+            {{ form.lanIPv4Address }}
+            {% if form.lanIPv4Address.errors %}
             <ul class="errors">
-              {% for error in form.dnsResolverPrimary.errors %}
+              {% for error in form.lanIPv4Address.errors %}
                 <li>{{ error }}</li>
               {% endfor %}
             </ul>
@@ -77,8 +77,8 @@ Router Config Generator
         </fieldset>
 
         <fieldset class="form-field">
-            {{ form.lanCidrPrefixSize.label }}
-            {{ form.lanCidrPrefixSize }}
+            {{ form.lanIPv4CidrPrefixSize.label }}
+            {{ form.lanIPv4CidrPrefixSize }}
         </fieldset>
 
         <fieldset class="form-field">

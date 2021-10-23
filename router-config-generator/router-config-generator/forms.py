@@ -18,13 +18,13 @@ class configForm(FlaskForm):
         'Timezone offset from UTC',
         [DataRequired()]
     )
-    dnsResolverPrimary = StringField(
-        'Primary DNS Server',
-        [IPAddress(ipv4=True, ipv6=True, message='Please enter a valid IPv4 or IPv6 address')]
+    dnsResolverPrimaryIPv4 = StringField(
+        'Primary IPv4 DNS Server',
+        [IPAddress(ipv4=True, ipv6=False, message='Please enter a valid IPv4 or IPv6 address')]
     )
-    dnsResolverSecondary = StringField(
-        'Secondary DNS Server',
-        [IPAddress(ipv4=True, ipv6=True, message='Please enter a valid IPv4 or IPv6 address')]
+    dnsResolverSecondaryIPv4 = StringField(
+        'Secondary IPv4 DNS Server',
+        [IPAddress(ipv4=True, ipv6=False, message='Please enter a valid IPv4 or IPv6 address')]
     )
     rtrAdminUsername = StringField(
         'Router Root Username',
@@ -34,18 +34,18 @@ class configForm(FlaskForm):
         'Router Root Password',
         [DataRequired()]
     )
-    lanIPAddress = StringField(
-        'LAN IP address',
+    lanIPv4Address = StringField(
+        'LAN IPv4 address',
         [IPAddress(ipv4=True, ipv6=True, message='Please enter a valid IPv4 or IPv6 address')]
     )
-    lanCidrPrefixSize = SelectField(
-        'LAN Prefix Size (CIDR)', choices=[('/31'), ('/30'), ('/29'), ('/28'), ('/27'), ('/26'), ('/25'), ('/24'), ('/23'), ('/22'), ('/21'), ('/20'), ('/19'), ('/18'), ('/17'), ('/16')]
+    lanIPv4CidrPrefixSize = SelectField(
+        'LAN IPv4 Prefix Size (CIDR)', choices=[('/31'), ('/30'), ('/29'), ('/28'), ('/27'), ('/26'), ('/25'), ('/24'), ('/23'), ('/22'), ('/21'), ('/20'), ('/19'), ('/18'), ('/17'), ('/16')]
     )
     wanTechnologyType = SelectField(
         'Service Technology Type', choices=[('FTTP'), ('FTTC'), ('FTTN'), ('HFC')]
     )
     wanAuthType = SelectField(
-        'Service Authentication Type', choices=[('IPoE (DHCP)'), ('PPPoE (Username/Password)')]
+        'Service Authentication Type', choices=[('IPoE'), ('PPPoE')]
     )
     rtrVendor = SelectField(
         'Router Vendor', choices=[('Cisco')]

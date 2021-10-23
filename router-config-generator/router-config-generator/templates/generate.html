@@ -26,8 +26,8 @@ aaa authorization exec default local <br/>
 clock timezone {{ tzName }} {{ tzOffset }} <br/>
 ! <br/>
 ip domain name {{ dnsSuffix }} <br/>
-ip name-server {{ dnsResolverPrimary }} <br/>
-ip name-server {{ dnsResolverSecondary }} <br/>
+ip name-server {{ dnsResolverPrimaryIPv4 }} <br/>
+ip name-server {{ dnsResolverSecondaryIPv4 }} <br/>
 ! <br/>
 ip inspect name FWv4 tcp router-traffic <br/>
 ip inspect name FWv4 udp router-traffic <br/>
@@ -49,23 +49,23 @@ no ip http secure-server <br/>
 crypto key generate rsa modulus 2048 <br/>
 ! <br/>
 ip access-list extended ACL-INFRASTRUCTURE-IN <br/>
-deny ip 0.0.0.0 0.255.255.255 any <br/>
-deny ip 10.0.0.0 0.255.255.255 any <br/>
-deny ip 127.0.0.0 0.255.255.255 any <br/>
-deny ip 169.254.0.0 0.0.255.255 any <br/>
-deny ip 172.16.0.0 0.15.255.255 any <br/>
-deny ip 192.168.0.0 0.0.255.255 any <br/>
-deny ip 198.18.0.0 0.0.255.255 any <br/>
-deny ip 224.0.0.0 31.255.255.255 any <br/>
-deny tcp any any fragments <br/>
-deny udp any any fragments <br/>
-deny icmp any any fragments <br/>
-permit icmp any any echo <br/>
-permit icmp any any echo-reply <br/>
-permit icmp any any time-exceeded <br/>
-permit icmp any any unreachable <br/>
-permit icmp any any packet-too-big <br/>
-deny ip any any log <br/>
+10 deny ip 0.0.0.0 0.255.255.255 any <br/>
+20 deny ip 10.0.0.0 0.255.255.255 any <br/>
+30 deny ip 127.0.0.0 0.255.255.255 any <br/>
+40 deny ip 169.254.0.0 0.0.255.255 any <br/>
+50 deny ip 172.16.0.0 0.15.255.255 any <br/>
+60 deny ip 192.168.0.0 0.0.255.255 any <br/>
+70 deny ip 198.18.0.0 0.0.255.255 any <br/>
+80 deny ip 224.0.0.0 31.255.255.255 any <br/>
+90 deny tcp any any fragments <br/>
+100 deny udp any any fragments <br/>
+110 deny icmp any any fragments <br/>
+120 permit icmp any any echo <br/>
+130 permit icmp any any echo-reply <br/>
+140 permit icmp any any time-exceeded <br/>
+150 permit icmp any any unreachable <br/>
+160 permit icmp any any packet-too-big <br/>
+300 deny ip any any log <br/>
 ! <br/>
 line con 0 <br/>
 exec-timeout 30 0  <br/>
@@ -89,12 +89,288 @@ permit tcp 192.168.0.0 0.0.255.255 any eq 22 <br/>
 permit tcp 172.16.0.0 0.15.255.255 any eq 22 <br/>
 permit tcp 10.0.0.0 0.255.255.255 any eq 22 <br/>
 ! <br/>
-{{ lanIPAddress }} <br/>
-{{ lanCidrPrefixSize }} <br/>
-{{ wanTechnologyType }} <br/>
-{{ wanAuthType }} <br/>
-{{ rtrSeries }} <br/>
-</div>
+access-list 1 permit {{ ipv4NetworkAddress }} {{ ipv4HostMask }} <br/>
+! <br/>
+
+{% if wanAuthType == 'IPoE' and (wanTechnologyType == 'FTTP' or wanTechnologyType == 'HFC') %}
+
+{% if rtrSeries == '880' or rtrSeries == '890' %}
+interface vlan 50 <br/>
+ip address dhcp <br/>
+ip access-group ACL-INFRASTRUCTURE-IN in <br/>
+no ip redirects <br/>
+no ip proxy-arp <br/>
+ip nat outside <br/>
+ip inspect FWv4 out <br/>
+! <br/>
+interface FastEthernet0 <br/>
+switchport mode access <br/>
+switchport access vlan 50 <br/>  
+! <br/>
+interface vlan 1 <br/>
+ip address {{ lanIPv4Address }} {{ ipv4SubnetMask }} <br/>
+no ip proxy-arp <br/>
+ip nat inside <br/>
+ip virtual-reassembly in <br/>
+ip tcp adjust-mss 1300 <br/>
+exit <br/>
+! <br/>
+ip nat inside source list 1 interface vlan 50 overload <br/>
+! <br/>
+ip access-list extended ACL-INFRASTRUCTURE-IN <br/>
+170 permit udp any any eq bootpc <br/>
+
 {% endif %}
+
+{% if rtrSeries == '1100' %}
+{% endif %}
+
+{% if rtrSeries == '1900' or rtrSeries == '2900' %}
+interface GigabitEthernet0/0 <br/>
+ip address dhcp <br/>
+ip access-group ACL-INFRASTRUCTURE-IN in <br/>
+no ip redirects <br/>
+no ip proxy-arp <br/>
+ip nat outside <br/>
+ip inspect FWv4 out <br/>
+! <br/>
+interface GigabitEthernet0/1 <br/>
+ip address {{ lanIPv4Address }} {{ ipv4SubnetMask }} <br/>
+no ip proxy-arp <br/>
+ip nat inside <br/>
+ip virtual-reassembly in <br/>
+ip tcp adjust-mss 1300 <br/>
+exit <br/>
+! <br/>
+ip nat inside source list 1 interface GigabitEthernet0/0 overload <br/>
+! <br/>
+ip access-list extended ACL-INFRASTRUCTURE-IN <br/>
+170 permit udp any any eq bootpc <br/>
+{% endif %}
+
+{% if rtrSeries == '4000' %}
+{% endif %}
+{% endif %}
+
+{% if wanAuthType == 'IPoE' and (wanTechnologyType == 'FTTN' or wanTechnologyType == 'FTTC') %}
+
+{% if rtrSeries == '880' or rtrSeries == '890' %}
+interface ethernet0 <br/>
+ip address dhcp <br/>
+ip access-group ACL-INFRASTRUCTURE-IN in <br/>
+no ip redirects <br/>
+no ip proxy-arp <br/>
+ip nat outside <br/>
+ip inspect FWv4 out <br/>
+ip virtual-reassembly in <br/>
+no cdp enable <br/>
+! <br/>
+interface vlan 1 <br/>
+ip address {{ lanIPv4Address }} {{ ipv4SubnetMask }} <br/>
+no ip proxy-arp <br/>
+ip nat inside <br/>
+ip virtual-reassembly in <br/>
+ip tcp adjust-mss 1300 <br/>
+exit <br/>
+! <br/>
+ip nat inside source list 1 interface Ethernet0 overload <br/>
+! <br/>
+ip access-list extended ACL-INFRASTRUCTURE-IN <br/>
+170 permit udp any any eq bootpc <br/>
+{% endif %}
+
+{% if rtrSeries == '1100' %}
+{% endif %}
+
+{% if rtrSeries == '1900' or rtrSeries == '2900' %}
+interface Ethernet0/0/0 <br/>
+ip address dhcp <br/>
+ip access-group ACL-INFRASTRUCTURE-IN in <br/>
+no ip redirects <br/>
+no ip proxy-arp <br/>
+ip nat outside <br/>
+ip inspect FWv4 out <br/>
+ip virtual-reassembly in <br/>
+no cdp enable <br/>
+! <br/>
+interface GigabitEthernet0/1 <br/>
+ip address {{ lanIPv4Address }} {{ ipv4SubnetMask }} <br/>
+no ip proxy-arp <br/>
+ip nat inside <br/>
+ip virtual-reassembly in <br/>
+ip tcp adjust-mss 1300 <br/>
+exit <br/>
+! <br/>
+ip nat inside source list 1 interface Ethernet0/0/0 overload <br/>
+! <br/>
+ip access-list extended ACL-INFRASTRUCTURE-IN <br/>
+175 permit udp any any eq bootpc <br/>
+{% endif %}
+
+{% if rtrSeries == '4000' %}
+{% endif %}
+{% endif %}
+
+
+{% if wanAuthType == 'PPPoE' and (wanTechnologyType == 'FTTP' or wanTechnologyType == 'HFC') %}
+
+{% if rtrSeries == '880' or rtrSeries == '890' %}
+interface vlan 50 <br/>
+pppoe enable group global <br/>
+pppoe-client dial-pool-number 1 <br/>
+! <br/>
+interface dialer0 <br/>
+ip address negotiated <br/>
+ip access-group ACL-INFRASTRUCTURE-IN in <br/>
+no ip redirects <br/>
+no ip proxy-arp <br/>
+ip nat outside <br/>
+ip inspect FWv4 out <br/>
+ip virtual-reassembly in <br/>
+encapsulation ppp <br/>
+dialer pool 1 <br/>
+ppp chap callin <br/>
+ppp chap hostname router.isphostname <br/>
+ppp chap password router.isppassword <br/>
+no cdp enable <br/>
+! <br/>
+interface FastEthernet0 <br/>
+switchport mode access <br/>
+switchport access vlan 50  <br/>
+! <br/>
+interface vlan 1 <br/>
+ip address {{ lanIPv4Address }} {{ ipv4SubnetMask }} <br/>
+no ip proxy-arp <br/>
+ip nat inside <br/>
+ip virtual-reassembly in <br/>
+ip tcp adjust-mss 1300 <br/>
+exit <br/>
+! <br/>
+ip route 0.0.0.0 0.0.0.0 dialer 0 <br/>
+! <br/>
+ip nat inside source list 1 interface dialer0 overload <br/>
+
+{% endif %}
+
+{% if rtrSeries == '1100' %}
+{% endif %}
+
+{% if rtrSeries == '1900' or rtrSeries == '2900' %}
+interface GigabitEthernet0/0 <br/>
+pppoe enable group global <br/>
+pppoe-client dial-pool-number 1 <br/>
+! <br/>
+interface dialer0 <br/>
+ip address negotiated <br/>
+ip access-group ACL-INFRASTRUCTURE-IN in <br/>
+no ip redirects <br/>
+no ip proxy-arp <br/>
+ip nat outside <br/>
+ip inspect FWv4 out <br/>
+ip virtual-reassembly in <br/>
+encapsulation ppp <br/>
+dialer pool 1 <br/>
+ppp chap callin <br/>
+ppp chap hostname router.isphostname <br/>
+ppp chap password router.isppassword <br/>
+no cdp enable <br/>
+! <br/>
+interface GigabitEthernet0/1 <br/>
+ip address {{ lanIPv4Address }} {{ ipv4SubnetMask }} <br/>
+no ip proxy-arp <br/>
+ip nat inside <br/>
+ip virtual-reassembly in <br/>
+ip tcp adjust-mss 1300 <br/>
+exit <br/>
+! <br/>
+ip route 0.0.0.0 0.0.0.0 dialer0 <br/>
+! <br/>
+ip nat inside source list 1 interface dialer0 overload <br/>
+
+{% endif %}
+
+{% if rtrSeries == '4000' %}
+{% endif %}
+{% endif %}
+
+{% if wanAuthType == 'PPPoE' and (wanTechnologyType == 'FTTN' or wanTechnologyType == 'FTTC') %}
+
+{% if rtrSeries == '880' or rtrSeries == '890' %}
+interface ethernet0 <br/>
+pppoe enable group global <br/>
+pppoe-client dial-pool-number 1 <br/>
+! <br/>
+interface dialer0 <br/>
+ip address negotiated <br/>
+ip access-group ACL-INFRASTRUCTURE-IN in <br/>
+no ip redirects <br/>
+no ip proxy-arp <br/>
+ip nat outside <br/>
+ip inspect FWv4 out <br/>
+ip virtual-reassembly in <br/>
+encapsulation ppp <br/>
+dialer pool 1 <br/>
+ppp chap callin <br/>
+ppp chap hostname router.isphostname <br/>
+ppp chap password router.isppassword <br/>
+no cdp enable <br/>
+! <br/>
+interface vlan 1 <br/>
+ip address {{ lanIPv4Address }} {{ ipv4SubnetMask }} <br/>
+no ip proxy-arp <br/>
+ip nat inside <br/>
+ip virtual-reassembly in <br/>
+ip tcp adjust-mss 1300 <br/>
+exit <br/>
+! <br/>
+ip route 0.0.0.0 0.0.0.0 dialer 0 <br/>
+! <br/>
+ip nat inside source list 1 interface dialer0 overload <br/>
+
+{% endif %}
+
+{% if rtrSeries == '1100' %}
+{% endif %}
+
+{% if rtrSeries == '1900' or rtrSeries == '2900' %}
+interface ethernet 0/0/0 <br/>
+pppoe enable group global <br/>
+pppoe-client dial-pool-number 1 <br/>
+! <br/>
+interface dialer0 <br/>
+ip address negotiated <br/>
+ip access-group ACL-INFRASTRUCTURE-IN in <br/>
+no ip redirects <br/>
+no ip proxy-arp <br/>
+ip nat outside <br/>
+ip inspect FWv4 out <br/>
+ip virtual-reassembly in <br/>
+encapsulation ppp <br/>
+dialer pool 1 <br/>
+ppp chap callin <br/>
+ppp chap hostname router.isphostname <br/>
+ppp chap password router.isppassword <br/>
+no cdp enable <br/>
+! <br/>
+interface GigabitEthernet0/1 <br/>
+ip address {{ lanIPv4Address }} {{ ipv4SubnetMask }} <br/>
+no ip proxy-arp <br/>
+ip nat inside <br/>
+ip virtual-reassembly in <br/>
+ip tcp adjust-mss 1300 <br/>
+exit <br/>
+! <br/>
+ip route 0.0.0.0 0.0.0.0 dialer 0 <br/>
+! <br/>
+ip nat inside source list 1 interface dialer0 overload <br/>
+
+{% endif %}
+
+{% if rtrSeries == '4000' %}
+{% endif %}
+{% endif %}
+
+{% endif %}
+</div>
   </div>
 {% endblock %}
