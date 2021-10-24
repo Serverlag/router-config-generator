@@ -19,4 +19,4 @@ cd router-config-generator
 gunicorn --bind 0.0.0.0:5000 wsgi:app
 ```
 
-After everything is up and running, visit http://127.0.0.1:5000.
+After everything is up and running, visit http://<serverip>:5000.
