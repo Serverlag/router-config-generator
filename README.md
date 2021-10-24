@@ -6,9 +6,8 @@ This configuration tool does have some base hardening done based on industry sta
 Network engineers should always review the outputted configuration to ensure its hardened before deploying into a production environment.*
 
 ### Getting started
-
-```Ubuntu:
-sh
+#### Ubuntu:
+```sh
 sudo apt install -y python3 python3-pip python3-venv git
 git clone https://github.com/Serverlag/router-config-generator.git
 cd router-config-generator
