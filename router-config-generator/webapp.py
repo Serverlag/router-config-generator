@@ -1,5 +1,4 @@
-from . import app
-from . import views
+from __init__ import app
 
 # TODO: #1 Move secret key to env file and load configuration to be more secure
 import os

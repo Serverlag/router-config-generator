@@ -6,11 +6,17 @@ This configuration tool does have some base hardening done based on industry sta
 Network engineers should always review the outputted configuration to ensure its hardened before deploying into a production environment.*
 
 ### Getting started
-
+#### Ubuntu:
 ```sh
-python -m venv router-config-generator
-python -m pip install --upgrade pip
-pip install -r requirements.txt
+sudo apt install -y python3 python3-pip python3-venv git
+git clone https://github.com/Serverlag/router-config-generator.git
+cd router-config-generator
+python3 -m venv router-config-generator
+source router-config-generator/bin/activate
+python3 -m pip install --upgrade pip
+pip3 install -r requirements.txt
+cd router-config-generator
+gunicorn --bind 0.0.0.0:5000 wsgi:app
 ```
 
-After everything is up and running, visit http://127.0.0.1:5000.
+After everything is up and running, visit http://server_ip_address:5000.
