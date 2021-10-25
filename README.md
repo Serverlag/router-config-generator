@@ -20,3 +20,11 @@ gunicorn --bind 0.0.0.0:5000 wsgi:app
 ```
 
 After everything is up and running, visit http://server_ip_address:5000.
+
+### Using Docker
+```sh
+docker build -t rcg .
+docker run -d -p 5000:5000 --name router-config-generator rcg
+```
+
+visit http://server_ip_address:5000
