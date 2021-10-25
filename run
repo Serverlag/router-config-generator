@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd /router-config-generator
+source ./router-config-generator/bin/activate
+/usr/local/bin/gunicorn --log-level debug --bind 0.0.0.0:5000 wsgi:app
