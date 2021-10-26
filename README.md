@@ -3,16 +3,15 @@
 *A basic router configuration generator that reduces configuration time and complexity.
 This configuration generator aims to make it easier for those new to enterprise routers to deploy reliable and well performing configurations.
 This configuration tool does have some base hardening done based on industry standards, however should not be assumed that it generates secure configurations.
-Network engineers should always review the outputted configuration to ensure its hardened before deploying into a production environment.
+Network engineers should always review the outputted configuration to ensure its hardened before deploying into a production environment.*
 
-Current supported routers:
+*Current supported routers:
 
 * Cisco 880 Series
 * Cisco 890 Series
 * Cisco 1900 Series
 * Cisco 2900 Series
 *
-
 ### Getting started
 #### Ubuntu:
 ```sh
