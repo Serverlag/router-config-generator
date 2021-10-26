@@ -4,5 +4,3 @@ Scripts/
 __pycache__/
 .vscode/
 *.cfg
-.env*
-!.env.example
