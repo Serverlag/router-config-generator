@@ -7,10 +7,10 @@ Network engineers should always review the outputted configuration to ensure its
 
 Current supported routers:
 
-Cisco 880 Series
-Cisco 890 Series
-Cisco 1900 Series
-Cisco 2900 Series
+* Cisco 880 Series
+* Cisco 890 Series
+* Cisco 1900 Series
+* Cisco 2900 Series
 *
 
 ### Getting started
