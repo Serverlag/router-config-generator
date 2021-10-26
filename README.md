@@ -3,7 +3,15 @@
 *A basic router configuration generator that reduces configuration time and complexity.
 This configuration generator aims to make it easier for those new to enterprise routers to deploy reliable and well performing configurations.
 This configuration tool does have some base hardening done based on industry standards, however should not be assumed that it generates secure configurations.
-Network engineers should always review the outputted configuration to ensure its hardened before deploying into a production environment.*
+Network engineers should always review the outputted configuration to ensure its hardened before deploying into a production environment.
+
+Current supported routers:
+
+Cisco 880 Series
+Cisco 890 Series
+Cisco 1900 Series
+Cisco 2900 Series
+*
 
 ### Getting started
 #### Ubuntu:
@@ -26,8 +34,8 @@ After everything is up and running, visit http://server_ip_address:5000.
 ```sh
 git clone https://github.com/Serverlag/router-config-generator.git
 cd router-config-generator
-docker build -t rcg .
-docker run -d -p 5000:5000 --name router-config-generator rcg
+sudo docker build -t rcg .
+sudo docker run -d -p 5000:5000 --name router-config-generator rcg
 ```
 
 visit http://server_ip_address:5000
