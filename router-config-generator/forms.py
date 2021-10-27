@@ -20,11 +20,19 @@ class configForm(FlaskForm):
     )
     dnsResolverPrimaryIPv4 = StringField(
         'Primary IPv4 DNS Server',
-        [IPAddress(ipv4=True, ipv6=False, message='Please enter a valid IPv4 or IPv6 address')]
+        [IPAddress(ipv4=True, ipv6=False, message='Please enter a valid IPv4 address')]
     )
     dnsResolverSecondaryIPv4 = StringField(
         'Secondary IPv4 DNS Server',
-        [IPAddress(ipv4=True, ipv6=False, message='Please enter a valid IPv4 or IPv6 address')]
+        [IPAddress(ipv4=True, ipv6=False, message='Please enter a valid IPv4 address')]
+    )
+    dnsResolverPrimaryIPv6 = StringField(
+        'Primary IPv6 DNS Server',
+        [IPAddress(ipv4=False, ipv6=True, message='Please enter a valid IPv6 address')]
+    )
+    dnsResolverSecondaryIPv6 = StringField(
+        'Secondary IPv6 DNS Server',
+        [IPAddress(ipv4=False, ipv6=True, message='Please enter a valid IPv6 address')]
     )
     rtrAdminUsername = StringField(
         'Router Root Username',

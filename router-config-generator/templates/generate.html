@@ -28,6 +28,8 @@ clock timezone {{ tzName }} {{ tzOffset }} <br/>
 ip domain name {{ dnsSuffix }} <br/>
 ip name-server {{ dnsResolverPrimaryIPv4 }} <br/>
 ip name-server {{ dnsResolverSecondaryIPv4 }} <br/>
+ip name-server {{ dnsResolverPrimaryIPv6 }} <br/>
+ip name-server {{ dnsResolverSecondaryIPv6 }} <br/>
 ! <br/>
 ip inspect name FWv4 tcp router-traffic <br/>
 ip inspect name FWv4 udp router-traffic <br/>
