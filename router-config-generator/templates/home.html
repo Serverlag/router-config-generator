@@ -55,6 +55,31 @@ Router Config Generator
         </fieldset>
 
         <fieldset class="form-field">
+            {{ form.dnsResolverPrimaryIPv6.label }}
+            {{ form.dnsResolverPrimaryIPv6 }}
+            {% if form.dnsResolverPrimaryIPv6.errors %}
+            <ul class="errors">
+              {% for error in form.dnsResolverPrimaryIPv6.errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </fieldset>
+
+        <fieldset class="form-field">
+            {{ form.dnsResolverSecondaryIPv6.label }}
+            {{ form.dnsResolverSecondaryIPv6 }}
+            {% if form.dnsResolverSecondaryIPv6.errors %}
+            <ul class="errors">
+              {% for error in form.dnsResolverSecondaryIPv6.errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </fieldset>
+
+
+        <fieldset class="form-field">
             {{ form.rtrAdminUsername.label }}
             {{ form.rtrAdminUsername }}
         </fieldset>

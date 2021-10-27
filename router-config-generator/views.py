@@ -20,6 +20,8 @@ def home():
             tzOffset = form.tzOffset.data,
             dnsResolverPrimaryIPv4 = form.dnsResolverPrimaryIPv4.data,
             dnsResolverSecondaryIPv4 = form.dnsResolverSecondaryIPv4.data,
+            dnsResolverPrimaryIPv6 = form.dnsResolverPrimaryIPv6.data,
+            dnsResolverSecondaryIPv6 = form.dnsResolverSecondaryIPv6.data,
             rtrAdminUsername = form.rtrAdminUsername.data,
             rtrAdminPassword = form.rtrAdminPassword.data,
             lanIPv4Address = form.lanIPv4Address.data,
