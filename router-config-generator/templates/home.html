@@ -1,13 +1,40 @@
 {% extends "layout.html" %}
+
 {% block title %}
 Router Config Generator
 {% endblock %}
+
+{% block body_attrs %} 
+onload="clearForm()" 
+{% endblock %}
+
 {% block content %}
+<script>
+  function checkDhcpv4Exclusions()
+  {
+    var checked = document.getElementById('lanDhcpv4Exclusions').checked
+    if (checked)
+    {
+      document.getElementById('lanDhcpv4ExcludedFirst').style.display = "flex"
+      document.getElementById('lanDhcpv4ExcludedLast').style.display = "flex"
+    }
+    else {
+      document.getElementById('lanDhcpv4ExcludedFirst').style.display = "none"
+      document.getElementById('lanDhcpv4ExcludedLast').style.display = "none"
+    }
+  }
+</script>
+<script>
+  function clearForm() 
+  {
+  document.forms.configForm.reset();
+  }
+</script>
 <div class="title">
 <h1>Router Config Generator</h1>
 </div>
 <div class="form-wrapper">
-    <form method="POST" action="{{ url_for('home') }}">
+    <form method="POST" action="{{ url_for('home') }}" id="configForm">
       {{ form.hidden_tag() }}
 
         <fieldset class="form-field">
@@ -104,6 +131,26 @@ Router Config Generator
         <fieldset class="form-field">
             {{ form.lanIPv4CidrPrefixSize.label }}
             {{ form.lanIPv4CidrPrefixSize }}
+        </fieldset>
+
+        <fieldset class="form-field">
+          {{ form.lanDhcpv4Server.label }}
+          {{ form.lanDhcpv4Server }}
+        </fieldset>
+
+        <fieldset class="form-field">
+          {{ form.lanDhcpv4Exclusions.label }}
+          {{ form.lanDhcpv4Exclusions(onclick="checkDhcpv4Exclusions()") }}
+        </fieldset>
+
+        <fieldset class="form-field" id="lanDhcpv4ExcludedFirst" style="display: none">
+          {{ form.lanDhcpv4ExcludedFirst.label }}
+          {{ form.lanDhcpv4ExcludedFirst }}
+        </fieldset>
+
+        <fieldset class="form-field" id="lanDhcpv4ExcludedLast" style="display: none">
+          {{ form.lanIPv4DhcpExcludedLast.label }}
+          {{ form.lanIPv4DhcpExcludedLast }}
         </fieldset>
 
         <fieldset class="form-field">

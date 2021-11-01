@@ -2,7 +2,7 @@ from __init__ import app
 from flask import render_template
 from forms import configForm
 import ipaddress
-# TODO: #3 Deploy app using gunicorn
+
 @app.route("/", methods=["GET", "POST"])
 def home():
     form = configForm()
@@ -26,6 +26,10 @@ def home():
             rtrAdminPassword = form.rtrAdminPassword.data,
             lanIPv4Address = form.lanIPv4Address.data,
             lanIPv4CidrPrefixSize = form.lanIPv4CidrPrefixSize.data,
+            lanDhcpv4Server = form.lanDhcpv4Server.data,
+            lanDhcpv4Exclusions = form.lanDhcpv4Exclusions.data,
+            lanDhcpv4ExcludedFirst = form.lanDhcpv4ExcludedFirst.data,
+            lanDhcpv4ExcludedLast = form.lanIPv4DhcpExcludedLast.data,
             ipv4NetworkAddress = ipv4NetworkAddress,
             ipv4HostMask = ipv4HostMask,
             ipv4SubnetMask = ipv4SubnetMask,
@@ -36,6 +40,5 @@ def home():
         )
     return render_template(
         "home.html",
-        form=form,
-        template="form-template"
+        form=form
     )
