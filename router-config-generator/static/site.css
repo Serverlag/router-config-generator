@@ -81,6 +81,11 @@ body {
     width: 300px;
 }
 
+.form-field input[type=checkbox] {
+    float: right;
+    width: auto;
+}
+
 .errors {
     color: red;
 }

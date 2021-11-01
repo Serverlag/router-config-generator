@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, SelectField, PasswordField
+from wtforms.fields.core import BooleanField
 from wtforms.validators import DataRequired, IPAddress
 
 class configForm(FlaskForm):
@@ -47,7 +48,21 @@ class configForm(FlaskForm):
         [IPAddress(ipv4=True, ipv6=True, message='Please enter a valid IPv4 or IPv6 address')]
     )
     lanIPv4CidrPrefixSize = SelectField(
-        'LAN IPv4 Prefix Size (CIDR)', choices=[('/31'), ('/30'), ('/29'), ('/28'), ('/27'), ('/26'), ('/25'), ('/24'), ('/23'), ('/22'), ('/21'), ('/20'), ('/19'), ('/18'), ('/17'), ('/16')]
+        'LAN IPv4 Prefix Size (CIDR)', choices=[('/31'), ('/30'), ('/29'), ('/28'), ('/27'), ('/26'), ('/25'), ('/24'), ('/23'), ('/22'), ('/21'), ('/20'), ('/19'), ('/18'), ('/17'), ('/16')], default=('/24')
+    )
+    lanDhcpv4Server = BooleanField(
+        'Enable DHCPv4 Server'
+    )
+    lanDhcpv4Exclusions = BooleanField(
+        'Configure DHCPv4 Exclusions',
+    )
+    lanDhcpv4ExcludedFirst = StringField(
+        'DHCPv4 Exclusion Start',
+        [IPAddress(ipv4=True, ipv6=False, message='Please enter a valid IPv4 address')]
+    )
+    lanIPv4DhcpExcludedLast = StringField(
+        'DHCPv4 Exclusion End',
+        [IPAddress(ipv4=True, ipv6=False, message='Please enter a valid IPv4 address')]
     )
     wanTechnologyType = SelectField(
         'Service Technology Type', choices=[('FTTP'), ('FTTC'), ('FTTN'), ('HFC')]

@@ -31,6 +31,18 @@ ip name-server {{ dnsResolverSecondaryIPv4 }} <br/>
 ip name-server {{ dnsResolverPrimaryIPv6 }} <br/>
 ip name-server {{ dnsResolverSecondaryIPv6 }} <br/>
 ! <br/>
+{% if lanDhcpv4Server == True %}
+ip dhcp pool LAN <br/>
+network {{ ipv4NetworkAddress }} {{ ipv4SubnetMask }} <br/>
+default-router {{ lanIPv4Address }} <br/>
+dns-server {{ lanIPv4Address }} <br/>
+lease 7 <br/>
+{% endif %}
+! <br/>
+{% if lanDhcpv4Exclusions == True %}
+ip dhcp excluded-address {{ lanDhcpv4ExcludedFirst }} {{ lanDhcpv4ExcludedLast }} <br/>
+{% endif %}
+! <br/>
 ip inspect name FWv4 tcp router-traffic <br/>
 ip inspect name FWv4 udp router-traffic <br/>
 ip inspect name FWv4 icmp <br/>
