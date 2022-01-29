@@ -3,78 +3,78 @@ from wtforms import StringField, SubmitField, SelectField, PasswordField
 from wtforms.fields.core import BooleanField
 from wtforms.validators import DataRequired, IPAddress
 
-class configForm(FlaskForm):
-    rtrHostname = StringField(
+class ConfigForm(FlaskForm):
+    rtr_hostname = StringField(
         'Router Hostname',
         [DataRequired()]
     )
-    dnsSuffix = StringField(
+    dns_suffix = StringField(
         'DNS Suffix',
         [DataRequired()]
     )
-    tzName = SelectField(
+    tz_name = SelectField(
         'Timezone Name', choices=[('ACST'), ('AEST'), ('AWST')]
     )
-    tzOffset = StringField(
+    tz_offset = StringField(
         'Timezone offset from UTC',
         [DataRequired()]
     )
-    dnsResolverPrimaryIPv4 = StringField(
+    dns_resolver_primary_ipv4 = StringField(
         'Primary IPv4 DNS Server',
         [IPAddress(ipv4=True, ipv6=False, message='Please enter a valid IPv4 address')]
     )
-    dnsResolverSecondaryIPv4 = StringField(
+    dns_resolver_secondary_ipv4 = StringField(
         'Secondary IPv4 DNS Server',
         [IPAddress(ipv4=True, ipv6=False, message='Please enter a valid IPv4 address')]
     )
-    dnsResolverPrimaryIPv6 = StringField(
+    dns_resolver_primary_ipv6 = StringField(
         'Primary IPv6 DNS Server',
         [IPAddress(ipv4=False, ipv6=True, message='Please enter a valid IPv6 address')]
     )
-    dnsResolverSecondaryIPv6 = StringField(
+    dns_resolver_secondary_ipv6 = StringField(
         'Secondary IPv6 DNS Server',
         [IPAddress(ipv4=False, ipv6=True, message='Please enter a valid IPv6 address')]
     )
-    rtrAdminUsername = StringField(
+    rtr_admin_username = StringField(
         'Router Root Username',
         [DataRequired()]
     )
-    rtrAdminPassword = PasswordField(
+    rtr_admin_password = PasswordField(
         'Router Root Password',
         [DataRequired()]
     )
-    lanIPv4Address = StringField(
+    lan_ipv4_address = StringField(
         'LAN IPv4 address',
         [IPAddress(ipv4=True, ipv6=True, message='Please enter a valid IPv4 or IPv6 address')]
     )
-    lanIPv4CidrPrefixSize = SelectField(
+    lan_ipv4_cidr_prefix_size = SelectField(
         'LAN IPv4 Prefix Size (CIDR)', choices=[('/31'), ('/30'), ('/29'), ('/28'), ('/27'), ('/26'), ('/25'), ('/24'), ('/23'), ('/22'), ('/21'), ('/20'), ('/19'), ('/18'), ('/17'), ('/16')], default=('/24')
     )
-    lanDhcpv4Server = BooleanField(
+    lan_dhcpv4_server = BooleanField(
         'Enable DHCPv4 Server'
     )
-    lanDhcpv4Exclusions = BooleanField(
+    lan_dhcpv4_exclusions = BooleanField(
         'Configure DHCPv4 Exclusions',
     )
-#TODO #13 Only validate IP addresses for DHCP exclusions if user configures DHCP exclusions preventing validation bug    
-    lanDhcpv4ExcludedFirst = StringField(
+#TODO #13 Only validate IP addresses for DHCP exclusions if user configures DHCP exclusions preventing validation bug
+    lan_dhcpv4_excluded_first = StringField(
         'DHCPv4 Exclusion Start',
     #    [IPAddress(ipv4=True, ipv6=False, message='Please enter a valid IPv4 address')]
     )
-    lanIPv4DhcpExcludedLast = StringField(
+    lan_dhcpv4_excluded_last = StringField(
         'DHCPv4 Exclusion End',
     #    [IPAddress(ipv4=True, ipv6=False, message='Please enter a valid IPv4 address')]
     )
-    wanTechnologyType = SelectField(
+    wan_technology_type = SelectField(
         'Service Technology Type', choices=[('FTTP'), ('FTTC'), ('FTTN'), ('HFC')]
     )
-    wanAuthType = SelectField(
+    wan_auth_type = SelectField(
         'Service Authentication Type', choices=[('IPoE'), ('PPPoE')]
     )
-    rtrVendor = SelectField(
+    rtr_vendor = SelectField(
         'Router Vendor', choices=[('Cisco')]
     )
-    rtrSeries = SelectField(
+    rtr_series = SelectField(
         'Router Series', choices=[('880'), ('890'), ('1100'), ('1900'), ('2900'), ('4000')]
     )
     generate = SubmitField('Generate Config')
