@@ -56,13 +56,14 @@ class ConfigForm(FlaskForm):
     lan_dhcpv4_exclusions = BooleanField(
         'Configure DHCPv4 Exclusions',
     )
+#TODO #13 Only validate IP addresses for DHCP exclusions if user configures DHCP exclusions preventing validation bug
     lan_dhcpv4_excluded_first = StringField(
         'DHCPv4 Exclusion Start',
-        [IPAddress(ipv4=True, ipv6=False, message='Please enter a valid IPv4 address')]
+#        [IPAddress(ipv4=True, ipv6=False, message='Please enter a valid IPv4 address')]
     )
     lan_dhcpv4_excluded_last = StringField(
         'DHCPv4 Exclusion End',
-        [IPAddress(ipv4=True, ipv6=False, message='Please enter a valid IPv4 address')]
+#        [IPAddress(ipv4=True, ipv6=False, message='Please enter a valid IPv4 address')]
     )
     wan_technology_type = SelectField(
         'Service Technology Type', choices=[('FTTP'), ('FTTC'), ('FTTN'), ('HFC')]

@@ -25,6 +25,13 @@ aaa authorization exec default local <br/>
 ! <br/>
 clock timezone {{ tz_name }} {{ tz_offset }} <br/>
 ! <br/>
+ipv6 unicast-routing <br/>
+ipv6 cef <br/>
+! <br/>
+ipv6 inspect name FWv6 tcp <br/>
+ipv6 inspect name FWv6 udp <br/>
+ipv6 inspect name FWv6 icmp <br/>
+! <br/>
 ip domain name {{ dns_suffix }} <br/>
 ip name-server {{ dns_resolver_primary_ipv4 }} <br/>
 ip name-server {{ dns_resolver_secondary_ipv4 }} <br/>
