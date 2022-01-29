@@ -10,59 +10,59 @@ onload="clearForm()"
 
 {% block content %}
 <script>
-  function checkDhcpv4Exclusions()
+  function check_dhcpv4_exclusions()
   {
-    var checked = document.getElementById('lanDhcpv4Exclusions').checked
+    var checked = document.getElementById('lan_dhcpv4_exclusions').checked
     if (checked)
     {
-      document.getElementById('lanDhcpv4ExcludedFirst').style.display = "flex"
-      document.getElementById('lanDhcpv4ExcludedLast').style.display = "flex"
+      document.getElementById('lan_dhcpv4_excluded_first').style.display = "flex"
+      document.getElementById('lan_dhcpv4_excluded_last').style.display = "flex"
     }
     else {
-      document.getElementById('lanDhcpv4ExcludedFirst').style.display = "none"
-      document.getElementById('lanDhcpv4ExcludedLast').style.display = "none"
+      document.getElementById('lan_dhcpv4_excluded_first').style.display = "none"
+      document.getElementById('lan_dhcpv4_excluded_last').style.display = "none"
     }
   }
 </script>
 <script>
-  function clearForm() 
+  function ClearForm() 
   {
-  document.forms.configForm.reset();
+  document.forms.ConfigForm.reset();
   }
 </script>
 <div class="title">
 <h1>Router Config Generator</h1>
 </div>
 <div class="form-wrapper">
-    <form method="POST" action="{{ url_for('home') }}" id="configForm">
+    <form method="POST" action="{{ url_for('home') }}" id="ConfigForm">
       {{ form.hidden_tag() }}
 
         <fieldset class="form-field">
-            {{ form.rtrHostname.label }}
-            {{ form.rtrHostname }}
+            {{ form.rtr_hostname.label }}
+            {{ form.rtr_hostname }}
         </fieldset>
 
         <fieldset class="form-field">
-            {{ form.dnsSuffix.label }}
-            {{ form.dnsSuffix }}
+            {{ form.dns_suffix.label }}
+            {{ form.dns_suffix }}
         </fieldset>
 
         <fieldset class="form-field">
-            {{ form.tzName.label }}
-            {{ form.tzName }}
+            {{ form.tz_name.label }}
+            {{ form.tz_name }}
         </fieldset>
 
         <fieldset class="form-field">
-            {{ form.tzOffset.label }}
-            {{ form.tzOffset }}
+            {{ form.tz_offset.label }}
+            {{ form.tz_offset }}
         </fieldset>
 
         <fieldset class="form-field">
-            {{ form.dnsResolverPrimaryIPv4.label }}
-            {{ form.dnsResolverPrimaryIPv4 }}
-            {% if form.dnsResolverPrimaryIPv4.errors %}
+            {{ form.dns_resolver_primary_ipv4.label }}
+            {{ form.dns_resolver_primary_ipv4 }}
+            {% if form.dns_resolver_primary_ipv4.errors %}
             <ul class="errors">
-              {% for error in form.dnsResolverPrimaryIPv4.errors %}
+              {% for error in form.dns_resolver_primary_ipv4.errors %}
                 <li>{{ error }}</li>
               {% endfor %}
             </ul>
@@ -70,11 +70,11 @@ onload="clearForm()"
         </fieldset>
 
         <fieldset class="form-field">
-            {{ form.dnsResolverSecondaryIPv4.label }}
-            {{ form.dnsResolverSecondaryIPv4 }}
-            {% if form.dnsResolverSecondaryIPv4.errors %}
+            {{ form.dns_resolver_secondary_ipv4.label }}
+            {{ form.dns_resolver_secondary_ipv4 }}
+            {% if form.dns_resolver_secondary_ipv4.errors %}
             <ul class="errors">
-              {% for error in form.dnsResolverSecondaryIPv4.errors %}
+              {% for error in form.dns_resolver_secondary_ipv4.errors %}
                 <li>{{ error }}</li>
               {% endfor %}
             </ul>
@@ -82,11 +82,11 @@ onload="clearForm()"
         </fieldset>
 
         <fieldset class="form-field">
-            {{ form.dnsResolverPrimaryIPv6.label }}
-            {{ form.dnsResolverPrimaryIPv6 }}
-            {% if form.dnsResolverPrimaryIPv6.errors %}
+            {{ form.dns_resolver_primary_ipv6.label }}
+            {{ form.dns_resolver_primary_ipv6 }}
+            {% if form.dns_resolver_primary_ipv6.errors %}
             <ul class="errors">
-              {% for error in form.dnsResolverPrimaryIPv6.errors %}
+              {% for error in form.dns_resolver_primary_ipv6.errors %}
                 <li>{{ error }}</li>
               {% endfor %}
             </ul>
@@ -94,11 +94,11 @@ onload="clearForm()"
         </fieldset>
 
         <fieldset class="form-field">
-            {{ form.dnsResolverSecondaryIPv6.label }}
-            {{ form.dnsResolverSecondaryIPv6 }}
-            {% if form.dnsResolverSecondaryIPv6.errors %}
+            {{ form.dns_resolver_secondary_ipv6.label }}
+            {{ form.dns_resolver_secondary_ipv6 }}
+            {% if form.dns_resolver_secondary_ipv6.errors %}
             <ul class="errors">
-              {% for error in form.dnsResolverSecondaryIPv6.errors %}
+              {% for error in form.dns_resolver_secondary_ipv6.errors %}
                 <li>{{ error }}</li>
               {% endfor %}
             </ul>
@@ -107,21 +107,21 @@ onload="clearForm()"
 
 
         <fieldset class="form-field">
-            {{ form.rtrAdminUsername.label }}
-            {{ form.rtrAdminUsername }}
+            {{ form.rtr_admin_username.label }}
+            {{ form.rtr_admin_username }}
         </fieldset>
 
         <fieldset class="form-field">
-            {{ form.rtrAdminPassword.label }}
-            {{ form.rtrAdminPassword }}
+            {{ form.rtr_admin_password.label }}
+            {{ form.rtr_admin_password }}
         </fieldset>
 
         <fieldset class="form-field">
-            {{ form.lanIPv4Address.label }}
-            {{ form.lanIPv4Address }}
-            {% if form.lanIPv4Address.errors %}
+            {{ form.lan_ipv4_address.label }}
+            {{ form.lan_ipv4_address }}
+            {% if form.lan_ipv4_address.errors %}
             <ul class="errors">
-              {% for error in form.lanIPv4Address.errors %}
+              {% for error in form.lan_ipv4_address.errors %}
                 <li>{{ error }}</li>
               {% endfor %}
             </ul>
@@ -129,48 +129,48 @@ onload="clearForm()"
         </fieldset>
 
         <fieldset class="form-field">
-            {{ form.lanIPv4CidrPrefixSize.label }}
-            {{ form.lanIPv4CidrPrefixSize }}
+            {{ form.lan_ipv4_cidr_prefix_size.label }}
+            {{ form.lan_ipv4_cidr_prefix_size }}
         </fieldset>
 
         <fieldset class="form-field">
-          {{ form.lanDhcpv4Server.label }}
-          {{ form.lanDhcpv4Server }}
+          {{ form.lan_dhcpv4_server.label }}
+          {{ form.lan_dhcpv4_server }}
         </fieldset>
 
         <fieldset class="form-field">
-          {{ form.lanDhcpv4Exclusions.label }}
-          {{ form.lanDhcpv4Exclusions(onclick="checkDhcpv4Exclusions()") }}
+          {{ form.lan_dhcpv4_exclusions.label }}
+          {{ form.lan_dhcpv4_exclusions(onclick="check_dhcpv4_exclusions()") }}
         </fieldset>
 
-        <fieldset class="form-field" id="lanDhcpv4ExcludedFirst" style="display: none">
-          {{ form.lanDhcpv4ExcludedFirst.label }}
-          {{ form.lanDhcpv4ExcludedFirst }}
+        <fieldset class="form-field" id="lan_dhcpv4_excluded_first" style="display: none">
+          {{ form.lan_dhcpv4_excluded_first.label }}
+          {{ form.lan_dhcpv4_excluded_first }}
         </fieldset>
 
-        <fieldset class="form-field" id="lanDhcpv4ExcludedLast" style="display: none">
-          {{ form.lanIPv4DhcpExcludedLast.label }}
-          {{ form.lanIPv4DhcpExcludedLast }}
-        </fieldset>
-
-        <fieldset class="form-field">
-            {{ form.wanTechnologyType.label }}
-            {{ form.wanTechnologyType }}
+        <fieldset class="form-field" id="lan_dhcpv4_excluded_last" style="display: none">
+          {{ form.lan_dhcpv4_excluded_last.label }}
+          {{ form.lan_dhcpv4_excluded_last }}
         </fieldset>
 
         <fieldset class="form-field">
-            {{ form.wanAuthType.label }}
-            {{ form.wanAuthType }}
+            {{ form.wan_technology_type.label }}
+            {{ form.wan_technology_type }}
         </fieldset>
 
         <fieldset class="form-field">
-            {{ form.rtrVendor.label }}
-            {{ form.rtrVendor }}
+            {{ form.wan_auth_type.label }}
+            {{ form.wan_auth_type }}
         </fieldset>
 
         <fieldset class="form-field">
-            {{ form.rtrSeries.label }}
-            {{ form.rtrSeries }}
+            {{ form.rtr_vendor.label }}
+            {{ form.rtr_vendor }}
+        </fieldset>
+
+        <fieldset class="form-field">
+            {{ form.rtr_series.label }}
+            {{ form.rtr_series }}
         </fieldset>
 
         {{ form.generate }}
