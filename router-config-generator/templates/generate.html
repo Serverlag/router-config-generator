@@ -88,6 +88,10 @@ ip access-list extended ACL-INFRASTRUCTURE-IN <br/>
 160 permit icmp any any packet-too-big <br/>
 300 deny ip any any log <br/>
 ! <br/>
+ipv6 access-list ACL6-INFRASTRUCTURE-IN <br/>
+sequence 10 permit icmp any any  <br/>
+sequence 300 deny ipv6 any any <br/>
+! <br/>
 line con 0 <br/>
 exec-timeout 30 0  <br/>
 no modem enable  <br/>
@@ -123,6 +127,14 @@ no ip redirects <br/>
 no ip proxy-arp <br/>
 ip nat outside <br/>
 ip inspect FWv4 out <br/>
+ipv6 address dhcp <br/>
+ipv6 address autoconfig default <br/>
+ipv6 enable <br/>
+no ipv6 redirects <br/>
+ipv6 dhcp client pd IPv6-PD <br/>
+ipv6 inspect FWv6 out <br/>
+ipv6 traffic-filter ACL6-INFRASTRUCTURE-IN in <br/>
+ipv6 virtual-reassembly in <br/>
 ! <br/>
 interface FastEthernet0 <br/>
 switchport mode access <br/>
@@ -134,12 +146,19 @@ no ip proxy-arp <br/>
 ip nat inside <br/>
 ip virtual-reassembly in <br/>
 ip tcp adjust-mss 1300 <br/>
+ipv6 enable <br/>
+ipv6 address IPv6-PD ::1/64 <br/>
+ipv6 nd ra dns server {{ dnsResolverPrimaryIPv6 }} <br/>
+ipv6 nd ra dns server {{ dnsResolverSecondaryIPv6 }} <br/>
 exit <br/>
 ! <br/>
 ip nat inside source list 1 interface vlan 50 overload <br/>
 ! <br/>
 ip access-list extended ACL-INFRASTRUCTURE-IN <br/>
 170 permit udp any any eq bootpc <br/>
+! <br/>
+ipv6 access-list ACL6-INFRASTRUCTURE-IN <br/>
+sequence 20 permit udp any any eq 546 <br/>
 
 {% endif %}
 
@@ -154,6 +173,14 @@ no ip redirects <br/>
 no ip proxy-arp <br/>
 ip nat outside <br/>
 ip inspect FWv4 out <br/>
+ipv6 address dhcp <br/>
+ipv6 address autoconfig default <br/>
+ipv6 enable <br/>
+no ipv6 redirects <br/>
+ipv6 dhcp client pd IPv6-PD <br/>
+ipv6 inspect FWv6 out <br/>
+ipv6 traffic-filter ACL6-INFRASTRUCTURE-IN in <br/>
+ipv6 virtual-reassembly in <br/>
 ! <br/>
 interface GigabitEthernet0/1 <br/>
 ip address {{ lan_ipv4_address }} {{ ipv4_subnet_mask }} <br/>
@@ -161,12 +188,20 @@ no ip proxy-arp <br/>
 ip nat inside <br/>
 ip virtual-reassembly in <br/>
 ip tcp adjust-mss 1300 <br/>
+ipv6 enable <br/>
+ipv6 address IPv6-PD ::1/64 <br/>
+ipv6 nd ra dns server {{ dnsResolverPrimaryIPv6 }} <br/>
+ipv6 nd ra dns server {{ dnsResolverSecondaryIPv6 }} <br/>
 exit <br/>
 ! <br/>
 ip nat inside source list 1 interface GigabitEthernet0/0 overload <br/>
 ! <br/>
 ip access-list extended ACL-INFRASTRUCTURE-IN <br/>
 170 permit udp any any eq bootpc <br/>
+! <br/>
+ipv6 access-list ACL6-INFRASTRUCTURE-IN <br/>
+sequence 20 permit udp any any eq 546 <br/>
+
 {% endif %}
 
 {% if rtr_series == '4000' %}
@@ -185,6 +220,14 @@ ip nat outside <br/>
 ip inspect FWv4 out <br/>
 ip virtual-reassembly in <br/>
 no cdp enable <br/>
+ipv6 address dhcp <br/>
+ipv6 address autoconfig default <br/>
+ipv6 enable <br/>
+no ipv6 redirects <br/>
+ipv6 dhcp client pd IPv6-PD <br/>
+ipv6 inspect FWv6 out <br/>
+ipv6 traffic-filter ACL6-INFRASTRUCTURE-IN in <br/>
+ipv6 virtual-reassembly in <br/>
 ! <br/>
 interface vlan 1 <br/>
 ip address {{ lan_ipv4_address }} {{ ipv4_subnet_mask }} <br/>
@@ -192,12 +235,20 @@ no ip proxy-arp <br/>
 ip nat inside <br/>
 ip virtual-reassembly in <br/>
 ip tcp adjust-mss 1300 <br/>
+ipv6 enable <br/>
+ipv6 address IPv6-PD ::1/64 <br/>
+ipv6 nd ra dns server {{ dnsResolverPrimaryIPv6 }} <br/>
+ipv6 nd ra dns server {{ dnsResolverSecondaryIPv6 }} <br/>
 exit <br/>
 ! <br/>
 ip nat inside source list 1 interface Ethernet0 overload <br/>
 ! <br/>
 ip access-list extended ACL-INFRASTRUCTURE-IN <br/>
 170 permit udp any any eq bootpc <br/>
+! <br/>
+ipv6 access-list ACL6-INFRASTRUCTURE-IN <br/>
+sequence 20 permit udp any any eq 546 <br/>
+
 {% endif %}
 
 {% if rtr_series == '1100' %}
@@ -213,6 +264,14 @@ ip nat outside <br/>
 ip inspect FWv4 out <br/>
 ip virtual-reassembly in <br/>
 no cdp enable <br/>
+ipv6 address dhcp <br/>
+ipv6 address autoconfig default <br/>
+ipv6 enable <br/>
+no ipv6 redirects <br/>
+ipv6 dhcp client pd IPv6-PD <br/>
+ipv6 inspect FWv6 out <br/>
+ipv6 traffic-filter ACL6-INFRASTRUCTURE-IN in <br/>
+ipv6 virtual-reassembly in <br/>
 ! <br/>
 interface GigabitEthernet0/1 <br/>
 ip address {{ lan_ipv4_address }} {{ ipv4_subnet_mask }} <br/>
@@ -220,12 +279,20 @@ no ip proxy-arp <br/>
 ip nat inside <br/>
 ip virtual-reassembly in <br/>
 ip tcp adjust-mss 1300 <br/>
+ipv6 enable <br/>
+ipv6 address IPv6-PD ::1/64 <br/>
+ipv6 nd ra dns server {{ dnsResolverPrimaryIPv6 }} <br/>
+ipv6 nd ra dns server {{ dnsResolverSecondaryIPv6 }} <br/>
 exit <br/>
 ! <br/>
 ip nat inside source list 1 interface Ethernet0/0/0 overload <br/>
 ! <br/>
 ip access-list extended ACL-INFRASTRUCTURE-IN <br/>
 175 permit udp any any eq bootpc <br/>
+! <br/>
+ipv6 access-list ACL6-INFRASTRUCTURE-IN <br/>
+sequence 20 permit udp any any eq 546 <br/>
+
 {% endif %}
 
 {% if rtr_series == '4000' %}
