@@ -146,11 +146,25 @@ onload="clearForm()"
         <fieldset class="form-field" id="lan_dhcpv4_excluded_first" style="display: none">
           {{ form.lan_dhcpv4_excluded_first.label }}
           {{ form.lan_dhcpv4_excluded_first }}
+          {% if form.lan_dhcpv4_excluded_first.errors %}
+          <ul class="errors">
+            {% for error in form.lan_dhcpv4_excluded_first.errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
         </fieldset>
 
         <fieldset class="form-field" id="lan_dhcpv4_excluded_last" style="display: none">
           {{ form.lan_dhcpv4_excluded_last.label }}
           {{ form.lan_dhcpv4_excluded_last }}
+          {% if form.lan_dhcpv4_excluded_last.errors %}
+          <ul class="errors">
+            {% for error in form.lan_dhcpv4_excluded_last.errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
         </fieldset>
 
         <fieldset class="form-field">
