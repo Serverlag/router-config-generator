@@ -5,7 +5,7 @@ Router Config Generator
 {% block content %}
 <div class="title">
 <h1>Router Config Generator</h1>
-{% if rtr_vendor == 'Cisco' %}
+{% if form.rtr_vendor.data == 'Cisco' %}
 <div class="cisco-router-config">
 service tcp-keepalives-out <br/>
 service timestamps debug datetime localtime show-timezone year <br/>
@@ -13,7 +13,7 @@ service timestamps log datetime localtime show-timezone year <br/>
 service password-encryption <br/>
 service sequence-numbers <br/>
 ! <br/>
-hostname {{ rtr_hostname }} <br/>
+hostname {{ form.rtr_hostname.data }} <br/>
 ! <br/>
 logging buffered 51200 informational <br/>
 ! <br/>
@@ -23,7 +23,7 @@ aaa authentication login default local <br/>
 aaa authorization console <br/>
 aaa authorization exec default local <br/>
 ! <br/>
-clock timezone {{ tz_name }} {{ tz_offset }} <br/>
+clock timezone {{ form.tz_name.data }} {{ form.tz_offset.data }} <br/>
 ! <br/>
 ipv6 unicast-routing <br/>
 ipv6 cef <br/>
@@ -32,22 +32,22 @@ ipv6 inspect name FWv6 tcp <br/>
 ipv6 inspect name FWv6 udp <br/>
 ipv6 inspect name FWv6 icmp <br/>
 ! <br/>
-ip domain name {{ dns_suffix }} <br/>
-ip name-server {{ dns_resolver_primary_ipv4 }} <br/>
-ip name-server {{ dns_resolver_secondary_ipv4 }} <br/>
-ip name-server {{ dns_resolver_primary_ipv6 }} <br/>
-ip name-server {{ dns_resolver_secondary_ipv6 }} <br/>
+ip domain name {{ form.dns_suffix.data }} <br/>
+ip name-server {{ form.dns_resolver_primary_ipv4.data }} <br/>
+ip name-server {{ form.dns_resolver_secondary_ipv4.data }} <br/>
+ip name-server {{ form.dns_resolver_primary_ipv6.data }} <br/>
+ip name-server {{ form.dns_resolver_secondary_ipv6.data }} <br/>
 ! <br/>
-{% if lan_dhcpv4_server == True %}
+{% if form.lan_dhcpv4_server.data == True %}
 ip dhcp pool LAN <br/>
 network {{ ipv4_network_address }} {{ ipv4_subnet_mask }} <br/>
-default-router {{ lan_ipv4_address }} <br/>
-dns-server {{ lan_ipv4_address }} <br/>
+default-router {{ form.lan_ipv4_address.data }} <br/>
+dns-server {{ form.lan_ipv4_address.data }} <br/>
 lease 7 <br/>
 {% endif %}
 ! <br/>
-{% if lan_dhcpv4_exclusions == True %}
-ip dhcp excluded-address {{ lan_dhcpv4_excluded_first }} {{ lan_dhcpv4_excluded_last }} <br/>
+{% if form.lan_dhcpv4_exclusions.data == True %}
+ip dhcp excluded-address {{ form.lan_dhcpv4_excluded_first.data }} {{ form.lan_dhcpv4_excluded_last.data }} <br/>
 {% endif %}
 ! <br/>
 ip inspect name FWv4 tcp router-traffic <br/>
@@ -60,7 +60,7 @@ logging enable <br/>
 notify syslog contenttype plaintext <br/>
 hidekeys <br/>
 ! <br/>
-username {{ rtr_admin_username }} privelege 15 secret 0 {{ rtr_admin_password }} <br/>
+username {{ form.rtr_admin_username.data }} privelege 15 secret 0 {{ form.rtr_admin_password.data }} <br/>
 ! <br/>
 no cdp run <br/>
 ! <br/>
@@ -117,9 +117,9 @@ permit tcp 10.0.0.0 0.255.255.255 any eq 22 <br/>
 access-list 1 permit {{ ipv4_network_address }} {{ ipv4_hostmask }} <br/>
 ! <br/>
 
-{% if wan_auth_type == 'IPoE' and (wan_technology_type == 'FTTP' or wan_technology_type == 'HFC') %}
+{% if form.wan_auth_type.data == 'IPoE' and (form.wan_technology_type.data == 'FTTP' or form.wan_technology_type.data == 'HFC') %}
 
-{% if rtr_series == '880' or rtr_series == '890' %}
+{% if form.rtr_series.data == '880' or form.rtr_series.data == '890' %}
 interface vlan 50 <br/>
 ip address dhcp <br/>
 ip access-group ACL-INFRASTRUCTURE-IN in <br/>
@@ -141,7 +141,7 @@ switchport mode access <br/>
 switchport access vlan 50 <br/>  
 ! <br/>
 interface vlan 1 <br/>
-ip address {{ lan_ipv4_address }} {{ ipv4_subnet_mask }} <br/>
+ip address {{ form.lan_ipv4_address.data }} {{ ipv4_subnet_mask }} <br/>
 no ip proxy-arp <br/>
 ip nat inside <br/>
 ip virtual-reassembly in <br/>
@@ -162,10 +162,10 @@ sequence 20 permit udp any any eq 546 <br/>
 
 {% endif %}
 
-{% if rtr_series == '1100' %}
+{% if form.rtr_series.data == '1100' %}
 {% endif %}
 
-{% if rtr_series == '1900' or rtr_series == '2900' %}
+{% if form.rtr_series.data == '1900' or form.rtr_series.data == '2900' %}
 interface GigabitEthernet0/0 <br/>
 ip address dhcp <br/>
 ip access-group ACL-INFRASTRUCTURE-IN in <br/>
@@ -183,7 +183,7 @@ ipv6 traffic-filter ACL6-INFRASTRUCTURE-IN in <br/>
 ipv6 virtual-reassembly in <br/>
 ! <br/>
 interface GigabitEthernet0/1 <br/>
-ip address {{ lan_ipv4_address }} {{ ipv4_subnet_mask }} <br/>
+ip address {{ form.lan_ipv4_address.data }} {{ ipv4_subnet_mask }} <br/>
 no ip proxy-arp <br/>
 ip nat inside <br/>
 ip virtual-reassembly in <br/>
@@ -204,13 +204,13 @@ sequence 20 permit udp any any eq 546 <br/>
 
 {% endif %}
 
-{% if rtr_series == '4000' %}
+{% if form.rtr_series.data == '4000' %}
 {% endif %}
 {% endif %}
 
-{% if wan_auth_type == 'IPoE' and (wan_technology_type == 'FTTN' or wan_technology_type == 'FTTC') %}
+{% if form.wan_auth_type.data == 'IPoE' and (form.wan_technology_type.data == 'FTTN' or form.wan_technology_type.data == 'FTTC') %}
 
-{% if rtr_series == '880' or rtr_series == '890' %}
+{% if form.rtr_series.data == '880' or form.rtr_series.data == '890' %}
 interface ethernet0 <br/>
 ip address dhcp <br/>
 ip access-group ACL-INFRASTRUCTURE-IN in <br/>
@@ -230,7 +230,7 @@ ipv6 traffic-filter ACL6-INFRASTRUCTURE-IN in <br/>
 ipv6 virtual-reassembly in <br/>
 ! <br/>
 interface vlan 1 <br/>
-ip address {{ lan_ipv4_address }} {{ ipv4_subnet_mask }} <br/>
+ip address {{ form.lan_ipv4_address.data }} {{ ipv4_subnet_mask }} <br/>
 no ip proxy-arp <br/>
 ip nat inside <br/>
 ip virtual-reassembly in <br/>
@@ -251,10 +251,10 @@ sequence 20 permit udp any any eq 546 <br/>
 
 {% endif %}
 
-{% if rtr_series == '1100' %}
+{% if form.rtr_series.data == '1100' %}
 {% endif %}
 
-{% if rtr_series == '1900' or rtr_series == '2900' %}
+{% if form.rtr_series.data == '1900' or form.rtr_series.data == '2900' %}
 interface Ethernet0/0/0 <br/>
 ip address dhcp <br/>
 ip access-group ACL-INFRASTRUCTURE-IN in <br/>
@@ -274,7 +274,7 @@ ipv6 traffic-filter ACL6-INFRASTRUCTURE-IN in <br/>
 ipv6 virtual-reassembly in <br/>
 ! <br/>
 interface GigabitEthernet0/1 <br/>
-ip address {{ lan_ipv4_address }} {{ ipv4_subnet_mask }} <br/>
+ip address {{ form.lan_ipv4_address.data }} {{ ipv4_subnet_mask }} <br/>
 no ip proxy-arp <br/>
 ip nat inside <br/>
 ip virtual-reassembly in <br/>
@@ -295,14 +295,14 @@ sequence 20 permit udp any any eq 546 <br/>
 
 {% endif %}
 
-{% if rtr_series == '4000' %}
+{% if form.rtr_series.data == '4000' %}
 {% endif %}
 {% endif %}
 
 
-{% if wan_auth_type == 'PPPoE' and (wan_technology_type == 'FTTP' or wan_technology_type == 'HFC') %}
+{% if form.wan_auth_type.data == 'PPPoE' and (form.wan_technology_type.data == 'FTTP' or form.wan_technology_type.data == 'HFC') %}
 
-{% if rtr_series == '880' or rtr_series == '890' %}
+{% if form.rtr_series.data == '880' or form.rtr_series.data == '890' %}
 interface vlan 50 <br/>
 pppoe enable group global <br/>
 pppoe-client dial-pool-number 1 <br/>
@@ -327,7 +327,7 @@ switchport mode access <br/>
 switchport access vlan 50  <br/>
 ! <br/>
 interface vlan 1 <br/>
-ip address {{ lan_ipv4_address }} {{ ipv4_subnet_mask }} <br/>
+ip address {{ form.lan_ipv4_address.data }} {{ ipv4_subnet_mask }} <br/>
 no ip proxy-arp <br/>
 ip nat inside <br/>
 ip virtual-reassembly in <br/>
@@ -340,10 +340,10 @@ ip nat inside source list 1 interface dialer0 overload <br/>
 
 {% endif %}
 
-{% if rtr_series == '1100' %}
+{% if form.rtr_series.data == '1100' %}
 {% endif %}
 
-{% if rtr_series == '1900' or rtr_series == '2900' %}
+{% if form.rtr_series.data == '1900' or form.rtr_series.data == '2900' %}
 interface GigabitEthernet0/0 <br/>
 pppoe enable group global <br/>
 pppoe-client dial-pool-number 1 <br/>
@@ -364,7 +364,7 @@ ppp chap password router.isppassword <br/>
 no cdp enable <br/>
 ! <br/>
 interface GigabitEthernet0/1 <br/>
-ip address {{ lan_ipv4_address }} {{ ipv4_subnet_mask }} <br/>
+ip address {{ form.lan_ipv4_address.data }} {{ ipv4_subnet_mask }} <br/>
 no ip proxy-arp <br/>
 ip nat inside <br/>
 ip virtual-reassembly in <br/>
@@ -377,13 +377,13 @@ ip nat inside source list 1 interface dialer0 overload <br/>
 
 {% endif %}
 
-{% if rtr_series == '4000' %}
+{% if form.rtr_series.data == '4000' %}
 {% endif %}
 {% endif %}
 
-{% if wan_auth_type == 'PPPoE' and (wan_technology_type == 'FTTN' or wan_technology_type == 'FTTC') %}
+{% if form.wan_auth_type.data == 'PPPoE' and (form.wan_technology_type.data == 'FTTN' or form.wan_technology_type.data == 'FTTC') %}
 
-{% if rtr_series == '880' or rtr_series == '890' %}
+{% if form.rtr_series.data == '880' or form.rtr_series.data == '890' %}
 interface ethernet0 <br/>
 pppoe enable group global <br/>
 pppoe-client dial-pool-number 1 <br/>
@@ -404,7 +404,7 @@ ppp chap password router.isppassword <br/>
 no cdp enable <br/>
 ! <br/>
 interface vlan 1 <br/>
-ip address {{ lan_ipv4_address }} {{ ipv4_subnet_mask }} <br/>
+ip address {{ form.lan_ipv4_address.data }} {{ ipv4_subnet_mask }} <br/>
 no ip proxy-arp <br/>
 ip nat inside <br/>
 ip virtual-reassembly in <br/>
@@ -417,10 +417,10 @@ ip nat inside source list 1 interface dialer0 overload <br/>
 
 {% endif %}
 
-{% if rtr_series == '1100' %}
+{% if form.rtr_series.data == '1100' %}
 {% endif %}
 
-{% if rtr_series == '1900' or rtr_series == '2900' %}
+{% if form.rtr_series.data == '1900' or form.rtr_series.data == '2900' %}
 interface ethernet 0/0/0 <br/>
 pppoe enable group global <br/>
 pppoe-client dial-pool-number 1 <br/>
@@ -441,7 +441,7 @@ ppp chap password router.isppassword <br/>
 no cdp enable <br/>
 ! <br/>
 interface GigabitEthernet0/1 <br/>
-ip address {{ lan_ipv4_address }} {{ ipv4_subnet_mask }} <br/>
+ip address {{ form.lan_ipv4_address.data }} {{ ipv4_subnet_mask }} <br/>
 no ip proxy-arp <br/>
 ip nat inside <br/>
 ip virtual-reassembly in <br/>
@@ -454,7 +454,7 @@ ip nat inside source list 1 interface dialer0 overload <br/>
 
 {% endif %}
 
-{% if rtr_series == '4000' %}
+{% if form.rtr_series.data == '4000' %}
 {% endif %}
 {% endif %}
 
