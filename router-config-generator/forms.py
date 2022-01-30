@@ -1,7 +1,18 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, SelectField, PasswordField
 from wtforms.fields.core import BooleanField
-from wtforms.validators import DataRequired, IPAddress
+from wtforms.validators import DataRequired, IPAddress, StopValidation
+
+class ValidateIfDHCPExclusionsEnabled():
+    def __init__(self, required_field_name):
+        self.required_field_name = required_field_name
+
+    def __call__(self, form, field):
+        required_field = form._fields.get(self.required_field_name)
+
+        if required_field is not None:
+            if not bool(required_field.data):
+                raise StopValidation()
 
 class ConfigForm(FlaskForm):
     rtr_hostname = StringField(
@@ -56,14 +67,13 @@ class ConfigForm(FlaskForm):
     lan_dhcpv4_exclusions = BooleanField(
         'Configure DHCPv4 Exclusions',
     )
-#TODO #13 Only validate IP addresses for DHCP exclusions if user configures DHCP exclusions preventing validation bug
     lan_dhcpv4_excluded_first = StringField(
         'DHCPv4 Exclusion Start',
-    #    [IPAddress(ipv4=True, ipv6=False, message='Please enter a valid IPv4 address')]
+        [ValidateIfDHCPExclusionsEnabled('lan_dhcpv4_exclusions'), IPAddress(ipv4=True, ipv6=False, message='Please enter a valid IPv4 address')]
     )
     lan_dhcpv4_excluded_last = StringField(
         'DHCPv4 Exclusion End',
-    #    [IPAddress(ipv4=True, ipv6=False, message='Please enter a valid IPv4 address')]
+        [ValidateIfDHCPExclusionsEnabled('lan_dhcpv4_exclusions'), IPAddress(ipv4=True, ipv6=False, message='Please enter a valid IPv4 address')]
     )
     wan_technology_type = SelectField(
         'Service Technology Type', choices=[('FTTP'), ('FTTC'), ('FTTN'), ('HFC')]
