@@ -23,6 +23,10 @@ onload="clearForm()"
       document.getElementById('lan_dhcpv4_excluded_last').style.display = "none"
     }
   }
+  
+  window.onload = function() {
+  	check_dhcpv4_exclusions();
+  }
 </script>
 <script>
   function ClearForm() 
