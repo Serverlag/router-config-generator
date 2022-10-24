@@ -1,6 +1,12 @@
 Include/
 Lib/
+Lib64/
 Scripts/
 __pycache__/
+bin/
+share/
+node_modules/
+dist/
+package*.json
 .vscode/
 *.cfg

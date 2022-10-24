@@ -3,462 +3,461 @@
 Router Config Generator
 {% endblock %}
 {% block content %}
-<div class="title">
-<h1>Router Config Generator</h1>
 {% if form.rtr_vendor.data == 'Cisco' %}
-<div class="cisco-router-config">
-service tcp-keepalives-out <br/>
-service timestamps debug datetime localtime show-timezone year <br/>
-service timestamps log datetime localtime show-timezone year <br/>
-service password-encryption <br/>
-service sequence-numbers <br/>
-! <br/>
-hostname {{ form.rtr_hostname.data }} <br/>
-! <br/>
-logging buffered 51200 informational <br/>
-! <br/>
-aaa new-model <br/>
-! <br/>
-aaa authentication login default local <br/>
-aaa authorization console <br/>
-aaa authorization exec default local <br/>
-! <br/>
-clock timezone {{ form.tz_name.data }} {{ form.tz_offset.data }} <br/>
-! <br/>
-ipv6 unicast-routing <br/>
-ipv6 cef <br/>
-! <br/>
-ipv6 inspect name FWv6 tcp <br/>
-ipv6 inspect name FWv6 udp <br/>
-ipv6 inspect name FWv6 icmp <br/>
-! <br/>
-ip domain name {{ form.dns_suffix.data }} <br/>
-ip name-server {{ form.dns_resolver_primary_ipv4.data }} <br/>
-ip name-server {{ form.dns_resolver_secondary_ipv4.data }} <br/>
-ip name-server {{ form.dns_resolver_primary_ipv6.data }} <br/>
-ip name-server {{ form.dns_resolver_secondary_ipv6.data }} <br/>
-! <br/>
-{% if form.lan_dhcpv4_server.data == True %}
-ip dhcp pool LAN <br/>
-network {{ ipv4_network_address }} {{ ipv4_subnet_mask }} <br/>
-default-router {{ form.lan_ipv4_address.data }} <br/>
-dns-server {{ form.lan_ipv4_address.data }} <br/>
-lease 7 <br/>
-{% endif %}
-! <br/>
-{% if form.lan_dhcpv4_exclusions.data == True %}
-ip dhcp excluded-address {{ form.lan_dhcpv4_excluded_first.data }} {{ form.lan_dhcpv4_excluded_last.data }} <br/>
-{% endif %}
-! <br/>
-ip inspect name FWv4 tcp router-traffic <br/>
-ip inspect name FWv4 udp router-traffic <br/>
-ip inspect name FWv4 icmp <br/>
-! <br/>
-archive <br/>
-log config <br/>
-logging enable <br/>
-notify syslog contenttype plaintext <br/>
-hidekeys <br/>
-! <br/>
-username {{ form.rtr_admin_username.data }} privilege 15 secret 0 {{ form.rtr_admin_password.data }} <br/>
-! <br/>
-no cdp run <br/>
-! <br/>
-no ip http server <br/>
-no ip http secure-server <br/>
-! <br/>
-crypto key generate rsa modulus 2048 <br/>
-! <br/>
-ip access-list extended ACL-INFRASTRUCTURE-IN <br/>
-10 deny ip 0.0.0.0 0.255.255.255 any <br/>
-20 deny ip 10.0.0.0 0.255.255.255 any <br/>
-30 deny ip 127.0.0.0 0.255.255.255 any <br/>
-40 deny ip 169.254.0.0 0.0.255.255 any <br/>
-50 deny ip 172.16.0.0 0.15.255.255 any <br/>
-60 deny ip 192.168.0.0 0.0.255.255 any <br/>
-70 deny ip 198.18.0.0 0.0.255.255 any <br/>
-80 deny ip 224.0.0.0 31.255.255.255 any <br/>
-90 deny tcp any any fragments <br/>
-100 deny udp any any fragments <br/>
-110 deny icmp any any fragments <br/>
-120 permit icmp any any echo <br/>
-130 permit icmp any any echo-reply <br/>
-140 permit icmp any any time-exceeded <br/>
-150 permit icmp any any unreachable <br/>
-160 permit icmp any any packet-too-big <br/>
-300 deny ip any any log <br/>
-! <br/>
-ipv6 access-list ACL6-INFRASTRUCTURE-IN <br/>
-sequence 10 permit icmp any any  <br/>
-sequence 300 deny ipv6 any any <br/>
-! <br/>
-line con 0 <br/>
-exec-timeout 30 0  <br/>
-no modem enable  <br/>
-line aux 0  <br/>
-exec-timeout 0 1  <br/>
-no exec <br/>
-transport output none <br/>
-line vty 0 4 <br/>
-access-class MGMT-IN in <br/>
-exec-timeout 30 0 <br/>
-logging synchronous <br/>
-transport input ssh <br/>
-! <br/>
-ntp server 202.89.184.139 <br/>
-ntp server 203.206.171.84 <br/>
-ntp server 220.233.200.157 <br/>
-! <br/>
-ip access-list extended MGMT-IN <br/>
-permit tcp 192.168.0.0 0.0.255.255 any eq 22 <br/>
-permit tcp 172.16.0.0 0.15.255.255 any eq 22 <br/>
-permit tcp 10.0.0.0 0.255.255.255 any eq 22 <br/>
-! <br/>
-access-list 1 permit {{ ipv4_network_address }} {{ ipv4_hostmask }} <br/>
-! <br/>
+<div class="flex justify-center">
+  <div class="flex justify-center text-left bg-white w-3/4">
+    service tcp-keepalives-out <br/>
+    service timestamps debug datetime localtime show-timezone year <br/>
+    service timestamps log datetime localtime show-timezone year <br/>
+    service password-encryption <br/>
+    service sequence-numbers <br/>
+    ! <br/>
+    hostname {{ form.rtr_hostname.data }} <br/>
+    ! <br/>
+    logging buffered 51200 informational <br/>
+    ! <br/>
+    aaa new-model <br/>
+    ! <br/>
+    aaa authentication login default local <br/>
+    aaa authorization console <br/>
+    aaa authorization exec default local <br/>
+    ! <br/>
+    clock timezone {{ form.tz_name.data }} {{ form.tz_offset.data }} <br/>
+    ! <br/>
+    ipv6 unicast-routing <br/>
+    ipv6 cef <br/>
+    ! <br/>
+    ipv6 inspect name FWv6 tcp <br/>
+    ipv6 inspect name FWv6 udp <br/>
+    ipv6 inspect name FWv6 icmp <br/>
+    ! <br/>
+    ip domain name {{ form.dns_suffix.data }} <br/>
+    ip name-server {{ form.dns_resolver_primary_ipv4.data }} <br/>
+    ip name-server {{ form.dns_resolver_secondary_ipv4.data }} <br/>
+    ip name-server {{ form.dns_resolver_primary_ipv6.data }} <br/>
+    ip name-server {{ form.dns_resolver_secondary_ipv6.data }} <br/>
+    ! <br/>
+    {% if form.lan_dhcpv4_server.data == True %}
+    ip dhcp pool LAN <br/>
+    network {{ ipv4_network_address }} {{ ipv4_subnet_mask }} <br/>
+    default-router {{ form.lan_ipv4_address.data }} <br/>
+    dns-server {{ form.lan_ipv4_address.data }} <br/>
+    lease 7 <br/>
+    {% endif %}
+    ! <br/>
+    {% if form.lan_dhcpv4_exclusions.data == True %}
+    ip dhcp excluded-address {{ form.lan_dhcpv4_excluded_first.data }} {{ form.lan_dhcpv4_excluded_last.data }} <br/>
+    {% endif %}
+    ! <br/>
+    ip inspect name FWv4 tcp router-traffic <br/>
+    ip inspect name FWv4 udp router-traffic <br/>
+    ip inspect name FWv4 icmp <br/>
+    ! <br/>
+    archive <br/>
+    log config <br/>
+    logging enable <br/>
+    notify syslog contenttype plaintext <br/>
+    hidekeys <br/>
+    ! <br/>
+    username {{ form.rtr_admin_username.data }} privilege 15 secret 0 {{ form.rtr_admin_password.data }} <br/>
+    ! <br/>
+    no cdp run <br/>
+    ! <br/>
+    no ip http server <br/>
+    no ip http secure-server <br/>
+    ! <br/>
+    crypto key generate rsa modulus 2048 <br/>
+    ! <br/>
+    ip access-list extended ACL-INFRASTRUCTURE-IN <br/>
+    10 deny ip 0.0.0.0 0.255.255.255 any <br/>
+    20 deny ip 10.0.0.0 0.255.255.255 any <br/>
+    30 deny ip 127.0.0.0 0.255.255.255 any <br/>
+    40 deny ip 169.254.0.0 0.0.255.255 any <br/>
+    50 deny ip 172.16.0.0 0.15.255.255 any <br/>
+    60 deny ip 192.168.0.0 0.0.255.255 any <br/>
+    70 deny ip 198.18.0.0 0.0.255.255 any <br/>
+    80 deny ip 224.0.0.0 31.255.255.255 any <br/>
+    90 deny tcp any any fragments <br/>
+    100 deny udp any any fragments <br/>
+    110 deny icmp any any fragments <br/>
+    120 permit icmp any any echo <br/>
+    130 permit icmp any any echo-reply <br/>
+    140 permit icmp any any time-exceeded <br/>
+    150 permit icmp any any unreachable <br/>
+    160 permit icmp any any packet-too-big <br/>
+    300 deny ip any any log <br/>
+    ! <br/>
+    ipv6 access-list ACL6-INFRASTRUCTURE-IN <br/>
+    sequence 10 permit icmp any any  <br/>
+    sequence 300 deny ipv6 any any <br/>
+    ! <br/>
+    line con 0 <br/>
+    exec-timeout 30 0  <br/>
+    no modem enable  <br/>
+    line aux 0  <br/>
+    exec-timeout 0 1  <br/>
+    no exec <br/>
+    transport output none <br/>
+    line vty 0 4 <br/>
+    access-class MGMT-IN in <br/>
+    exec-timeout 30 0 <br/>
+    logging synchronous <br/>
+    transport input ssh <br/>
+    ! <br/>
+    ntp server 202.89.184.139 <br/>
+    ntp server 203.206.171.84 <br/>
+    ntp server 220.233.200.157 <br/>
+    ! <br/>
+    ip access-list extended MGMT-IN <br/>
+    permit tcp 192.168.0.0 0.0.255.255 any eq 22 <br/>
+    permit tcp 172.16.0.0 0.15.255.255 any eq 22 <br/>
+    permit tcp 10.0.0.0 0.255.255.255 any eq 22 <br/>
+    ! <br/>
+    access-list 1 permit {{ ipv4_network_address }} {{ ipv4_hostmask }} <br/>
+    ! <br/>
 
-{% if form.wan_auth_type.data == 'IPoE' and (form.wan_technology_type.data == 'FTTP' or form.wan_technology_type.data == 'HFC') %}
+    {% if form.wan_auth_type.data == 'IPoE' and (form.wan_technology_type.data == 'FTTP' or form.wan_technology_type.data == 'HFC') %}
 
-{% if form.rtr_series.data == '880' or form.rtr_series.data == '890' %}
-interface vlan 50 <br/>
-ip address dhcp <br/>
-ip access-group ACL-INFRASTRUCTURE-IN in <br/>
-no ip redirects <br/>
-no ip proxy-arp <br/>
-ip nat outside <br/>
-ip inspect FWv4 out <br/>
-ipv6 address dhcp <br/>
-ipv6 address autoconfig default <br/>
-ipv6 enable <br/>
-no ipv6 redirects <br/>
-ipv6 dhcp client pd IPv6-PD <br/>
-ipv6 inspect FWv6 out <br/>
-ipv6 traffic-filter ACL6-INFRASTRUCTURE-IN in <br/>
-ipv6 virtual-reassembly in <br/>
-! <br/>
-interface FastEthernet0 <br/>
-switchport mode access <br/>
-switchport access vlan 50 <br/>  
-! <br/>
-interface vlan 1 <br/>
-ip address {{ form.lan_ipv4_address.data }} {{ ipv4_subnet_mask }} <br/>
-no ip proxy-arp <br/>
-ip nat inside <br/>
-ip virtual-reassembly in <br/>
-ip tcp adjust-mss 1300 <br/>
-ipv6 enable <br/>
-ipv6 address IPv6-PD ::1/64 <br/>
-ipv6 nd ra dns server {{ dnsResolverPrimaryIPv6 }} <br/>
-ipv6 nd ra dns server {{ dnsResolverSecondaryIPv6 }} <br/>
-exit <br/>
-! <br/>
-ip nat inside source list 1 interface vlan 50 overload <br/>
-! <br/>
-ip access-list extended ACL-INFRASTRUCTURE-IN <br/>
-170 permit udp any any eq bootpc <br/>
-! <br/>
-ipv6 access-list ACL6-INFRASTRUCTURE-IN <br/>
-sequence 20 permit udp any any eq 546 <br/>
+    {% if form.rtr_series.data == '880' or form.rtr_series.data == '890' %}
+    interface vlan 50 <br/>
+    ip address dhcp <br/>
+    ip access-group ACL-INFRASTRUCTURE-IN in <br/>
+    no ip redirects <br/>
+    no ip proxy-arp <br/>
+    ip nat outside <br/>
+    ip inspect FWv4 out <br/>
+    ipv6 address dhcp <br/>
+    ipv6 address autoconfig default <br/>
+    ipv6 enable <br/>
+    no ipv6 redirects <br/>
+    ipv6 dhcp client pd IPv6-PD <br/>
+    ipv6 inspect FWv6 out <br/>
+    ipv6 traffic-filter ACL6-INFRASTRUCTURE-IN in <br/>
+    ipv6 virtual-reassembly in <br/>
+    ! <br/>
+    interface FastEthernet0 <br/>
+    switchport mode access <br/>
+    switchport access vlan 50 <br/>  
+    ! <br/>
+    interface vlan 1 <br/>
+    ip address {{ form.lan_ipv4_address.data }} {{ ipv4_subnet_mask }} <br/>
+    no ip proxy-arp <br/>
+    ip nat inside <br/>
+    ip virtual-reassembly in <br/>
+    ip tcp adjust-mss 1300 <br/>
+    ipv6 enable <br/>
+    ipv6 address IPv6-PD ::1/64 <br/>
+    ipv6 nd ra dns server {{ dnsResolverPrimaryIPv6 }} <br/>
+    ipv6 nd ra dns server {{ dnsResolverSecondaryIPv6 }} <br/>
+    exit <br/>
+    ! <br/>
+    ip nat inside source list 1 interface vlan 50 overload <br/>
+    ! <br/>
+    ip access-list extended ACL-INFRASTRUCTURE-IN <br/>
+    170 permit udp any any eq bootpc <br/>
+    ! <br/>
+    ipv6 access-list ACL6-INFRASTRUCTURE-IN <br/>
+    sequence 20 permit udp any any eq 546 <br/>
 
-{% endif %}
+    {% endif %}
 
-{% if form.rtr_series.data == '1100' %}
-{% endif %}
+    {% if form.rtr_series.data == '1100' %}
+    {% endif %}
 
-{% if form.rtr_series.data == '1900' or form.rtr_series.data == '2900' %}
-interface GigabitEthernet0/0 <br/>
-ip address dhcp <br/>
-ip access-group ACL-INFRASTRUCTURE-IN in <br/>
-no ip redirects <br/>
-no ip proxy-arp <br/>
-ip nat outside <br/>
-ip inspect FWv4 out <br/>
-ipv6 address dhcp <br/>
-ipv6 address autoconfig default <br/>
-ipv6 enable <br/>
-no ipv6 redirects <br/>
-ipv6 dhcp client pd IPv6-PD <br/>
-ipv6 inspect FWv6 out <br/>
-ipv6 traffic-filter ACL6-INFRASTRUCTURE-IN in <br/>
-ipv6 virtual-reassembly in <br/>
-! <br/>
-interface GigabitEthernet0/1 <br/>
-ip address {{ form.lan_ipv4_address.data }} {{ ipv4_subnet_mask }} <br/>
-no ip proxy-arp <br/>
-ip nat inside <br/>
-ip virtual-reassembly in <br/>
-ip tcp adjust-mss 1300 <br/>
-ipv6 enable <br/>
-ipv6 address IPv6-PD ::1/64 <br/>
-ipv6 nd ra dns server {{ dnsResolverPrimaryIPv6 }} <br/>
-ipv6 nd ra dns server {{ dnsResolverSecondaryIPv6 }} <br/>
-exit <br/>
-! <br/>
-ip nat inside source list 1 interface GigabitEthernet0/0 overload <br/>
-! <br/>
-ip access-list extended ACL-INFRASTRUCTURE-IN <br/>
-170 permit udp any any eq bootpc <br/>
-! <br/>
-ipv6 access-list ACL6-INFRASTRUCTURE-IN <br/>
-sequence 20 permit udp any any eq 546 <br/>
+    {% if form.rtr_series.data == '1900' or form.rtr_series.data == '2900' %}
+    interface GigabitEthernet0/0 <br/>
+    ip address dhcp <br/>
+    ip access-group ACL-INFRASTRUCTURE-IN in <br/>
+    no ip redirects <br/>
+    no ip proxy-arp <br/>
+    ip nat outside <br/>
+    ip inspect FWv4 out <br/>
+    ipv6 address dhcp <br/>
+    ipv6 address autoconfig default <br/>
+    ipv6 enable <br/>
+    no ipv6 redirects <br/>
+    ipv6 dhcp client pd IPv6-PD <br/>
+    ipv6 inspect FWv6 out <br/>
+    ipv6 traffic-filter ACL6-INFRASTRUCTURE-IN in <br/>
+    ipv6 virtual-reassembly in <br/>
+    ! <br/>
+    interface GigabitEthernet0/1 <br/>
+    ip address {{ form.lan_ipv4_address.data }} {{ ipv4_subnet_mask }} <br/>
+    no ip proxy-arp <br/>
+    ip nat inside <br/>
+    ip virtual-reassembly in <br/>
+    ip tcp adjust-mss 1300 <br/>
+    ipv6 enable <br/>
+    ipv6 address IPv6-PD ::1/64 <br/>
+    ipv6 nd ra dns server {{ dnsResolverPrimaryIPv6 }} <br/>
+    ipv6 nd ra dns server {{ dnsResolverSecondaryIPv6 }} <br/>
+    exit <br/>
+    ! <br/>
+    ip nat inside source list 1 interface GigabitEthernet0/0 overload <br/>
+    ! <br/>
+    ip access-list extended ACL-INFRASTRUCTURE-IN <br/>
+    170 permit udp any any eq bootpc <br/>
+    ! <br/>
+    ipv6 access-list ACL6-INFRASTRUCTURE-IN <br/>
+    sequence 20 permit udp any any eq 546 <br/>
 
-{% endif %}
+    {% endif %}
 
-{% if form.rtr_series.data == '4000' %}
-{% endif %}
-{% endif %}
+    {% if form.rtr_series.data == '4000' %}
+    {% endif %}
+    {% endif %}
 
-{% if form.wan_auth_type.data == 'IPoE' and (form.wan_technology_type.data == 'FTTN' or form.wan_technology_type.data == 'FTTC') %}
+    {% if form.wan_auth_type.data == 'IPoE' and (form.wan_technology_type.data == 'FTTN' or form.wan_technology_type.data == 'FTTC') %}
 
-{% if form.rtr_series.data == '880' or form.rtr_series.data == '890' %}
-interface ethernet0 <br/>
-ip address dhcp <br/>
-ip access-group ACL-INFRASTRUCTURE-IN in <br/>
-no ip redirects <br/>
-no ip proxy-arp <br/>
-ip nat outside <br/>
-ip inspect FWv4 out <br/>
-ip virtual-reassembly in <br/>
-no cdp enable <br/>
-ipv6 address dhcp <br/>
-ipv6 address autoconfig default <br/>
-ipv6 enable <br/>
-no ipv6 redirects <br/>
-ipv6 dhcp client pd IPv6-PD <br/>
-ipv6 inspect FWv6 out <br/>
-ipv6 traffic-filter ACL6-INFRASTRUCTURE-IN in <br/>
-ipv6 virtual-reassembly in <br/>
-! <br/>
-interface vlan 1 <br/>
-ip address {{ form.lan_ipv4_address.data }} {{ ipv4_subnet_mask }} <br/>
-no ip proxy-arp <br/>
-ip nat inside <br/>
-ip virtual-reassembly in <br/>
-ip tcp adjust-mss 1300 <br/>
-ipv6 enable <br/>
-ipv6 address IPv6-PD ::1/64 <br/>
-ipv6 nd ra dns server {{ dnsResolverPrimaryIPv6 }} <br/>
-ipv6 nd ra dns server {{ dnsResolverSecondaryIPv6 }} <br/>
-exit <br/>
-! <br/>
-ip nat inside source list 1 interface Ethernet0 overload <br/>
-! <br/>
-ip access-list extended ACL-INFRASTRUCTURE-IN <br/>
-170 permit udp any any eq bootpc <br/>
-! <br/>
-ipv6 access-list ACL6-INFRASTRUCTURE-IN <br/>
-sequence 20 permit udp any any eq 546 <br/>
+    {% if form.rtr_series.data == '880' or form.rtr_series.data == '890' %}
+    interface ethernet0 <br/>
+    ip address dhcp <br/>
+    ip access-group ACL-INFRASTRUCTURE-IN in <br/>
+    no ip redirects <br/>
+    no ip proxy-arp <br/>
+    ip nat outside <br/>
+    ip inspect FWv4 out <br/>
+    ip virtual-reassembly in <br/>
+    no cdp enable <br/>
+    ipv6 address dhcp <br/>
+    ipv6 address autoconfig default <br/>
+    ipv6 enable <br/>
+    no ipv6 redirects <br/>
+    ipv6 dhcp client pd IPv6-PD <br/>
+    ipv6 inspect FWv6 out <br/>
+    ipv6 traffic-filter ACL6-INFRASTRUCTURE-IN in <br/>
+    ipv6 virtual-reassembly in <br/>
+    ! <br/>
+    interface vlan 1 <br/>
+    ip address {{ form.lan_ipv4_address.data }} {{ ipv4_subnet_mask }} <br/>
+    no ip proxy-arp <br/>
+    ip nat inside <br/>
+    ip virtual-reassembly in <br/>
+    ip tcp adjust-mss 1300 <br/>
+    ipv6 enable <br/>
+    ipv6 address IPv6-PD ::1/64 <br/>
+    ipv6 nd ra dns server {{ dnsResolverPrimaryIPv6 }} <br/>
+    ipv6 nd ra dns server {{ dnsResolverSecondaryIPv6 }} <br/>
+    exit <br/>
+    ! <br/>
+    ip nat inside source list 1 interface Ethernet0 overload <br/>
+    ! <br/>
+    ip access-list extended ACL-INFRASTRUCTURE-IN <br/>
+    170 permit udp any any eq bootpc <br/>
+    ! <br/>
+    ipv6 access-list ACL6-INFRASTRUCTURE-IN <br/>
+    sequence 20 permit udp any any eq 546 <br/>
 
-{% endif %}
+    {% endif %}
 
-{% if form.rtr_series.data == '1100' %}
-{% endif %}
+    {% if form.rtr_series.data == '1100' %}
+    {% endif %}
 
-{% if form.rtr_series.data == '1900' or form.rtr_series.data == '2900' %}
-interface Ethernet0/0/0 <br/>
-ip address dhcp <br/>
-ip access-group ACL-INFRASTRUCTURE-IN in <br/>
-no ip redirects <br/>
-no ip proxy-arp <br/>
-ip nat outside <br/>
-ip inspect FWv4 out <br/>
-ip virtual-reassembly in <br/>
-no cdp enable <br/>
-ipv6 address dhcp <br/>
-ipv6 address autoconfig default <br/>
-ipv6 enable <br/>
-no ipv6 redirects <br/>
-ipv6 dhcp client pd IPv6-PD <br/>
-ipv6 inspect FWv6 out <br/>
-ipv6 traffic-filter ACL6-INFRASTRUCTURE-IN in <br/>
-ipv6 virtual-reassembly in <br/>
-! <br/>
-interface GigabitEthernet0/1 <br/>
-ip address {{ form.lan_ipv4_address.data }} {{ ipv4_subnet_mask }} <br/>
-no ip proxy-arp <br/>
-ip nat inside <br/>
-ip virtual-reassembly in <br/>
-ip tcp adjust-mss 1300 <br/>
-ipv6 enable <br/>
-ipv6 address IPv6-PD ::1/64 <br/>
-ipv6 nd ra dns server {{ dnsResolverPrimaryIPv6 }} <br/>
-ipv6 nd ra dns server {{ dnsResolverSecondaryIPv6 }} <br/>
-exit <br/>
-! <br/>
-ip nat inside source list 1 interface Ethernet0/0/0 overload <br/>
-! <br/>
-ip access-list extended ACL-INFRASTRUCTURE-IN <br/>
-175 permit udp any any eq bootpc <br/>
-! <br/>
-ipv6 access-list ACL6-INFRASTRUCTURE-IN <br/>
-sequence 20 permit udp any any eq 546 <br/>
+    {% if form.rtr_series.data == '1900' or form.rtr_series.data == '2900' %}
+    interface Ethernet0/0/0 <br/>
+    ip address dhcp <br/>
+    ip access-group ACL-INFRASTRUCTURE-IN in <br/>
+    no ip redirects <br/>
+    no ip proxy-arp <br/>
+    ip nat outside <br/>
+    ip inspect FWv4 out <br/>
+    ip virtual-reassembly in <br/>
+    no cdp enable <br/>
+    ipv6 address dhcp <br/>
+    ipv6 address autoconfig default <br/>
+    ipv6 enable <br/>
+    no ipv6 redirects <br/>
+    ipv6 dhcp client pd IPv6-PD <br/>
+    ipv6 inspect FWv6 out <br/>
+    ipv6 traffic-filter ACL6-INFRASTRUCTURE-IN in <br/>
+    ipv6 virtual-reassembly in <br/>
+    ! <br/>
+    interface GigabitEthernet0/1 <br/>
+    ip address {{ form.lan_ipv4_address.data }} {{ ipv4_subnet_mask }} <br/>
+    no ip proxy-arp <br/>
+    ip nat inside <br/>
+    ip virtual-reassembly in <br/>
+    ip tcp adjust-mss 1300 <br/>
+    ipv6 enable <br/>
+    ipv6 address IPv6-PD ::1/64 <br/>
+    ipv6 nd ra dns server {{ dnsResolverPrimaryIPv6 }} <br/>
+    ipv6 nd ra dns server {{ dnsResolverSecondaryIPv6 }} <br/>
+    exit <br/>
+    ! <br/>
+    ip nat inside source list 1 interface Ethernet0/0/0 overload <br/>
+    ! <br/>
+    ip access-list extended ACL-INFRASTRUCTURE-IN <br/>
+    175 permit udp any any eq bootpc <br/>
+    ! <br/>
+    ipv6 access-list ACL6-INFRASTRUCTURE-IN <br/>
+    sequence 20 permit udp any any eq 546 <br/>
 
-{% endif %}
+    {% endif %}
 
-{% if form.rtr_series.data == '4000' %}
-{% endif %}
-{% endif %}
+    {% if form.rtr_series.data == '4000' %}
+    {% endif %}
+    {% endif %}
 
 
-{% if form.wan_auth_type.data == 'PPPoE' and (form.wan_technology_type.data == 'FTTP' or form.wan_technology_type.data == 'HFC') %}
+    {% if form.wan_auth_type.data == 'PPPoE' and (form.wan_technology_type.data == 'FTTP' or form.wan_technology_type.data == 'HFC') %}
 
-{% if form.rtr_series.data == '880' or form.rtr_series.data == '890' %}
-interface vlan 50 <br/>
-pppoe enable group global <br/>
-pppoe-client dial-pool-number 1 <br/>
-! <br/>
-interface dialer0 <br/>
-ip address negotiated <br/>
-ip access-group ACL-INFRASTRUCTURE-IN in <br/>
-no ip redirects <br/>
-no ip proxy-arp <br/>
-ip nat outside <br/>
-ip inspect FWv4 out <br/>
-ip virtual-reassembly in <br/>
-encapsulation ppp <br/>
-dialer pool 1 <br/>
-ppp chap callin <br/>
-ppp chap hostname router.isphostname <br/>
-ppp chap password router.isppassword <br/>
-no cdp enable <br/>
-! <br/>
-interface FastEthernet0 <br/>
-switchport mode access <br/>
-switchport access vlan 50  <br/>
-! <br/>
-interface vlan 1 <br/>
-ip address {{ form.lan_ipv4_address.data }} {{ ipv4_subnet_mask }} <br/>
-no ip proxy-arp <br/>
-ip nat inside <br/>
-ip virtual-reassembly in <br/>
-ip tcp adjust-mss 1300 <br/>
-exit <br/>
-! <br/>
-ip route 0.0.0.0 0.0.0.0 dialer 0 <br/>
-! <br/>
-ip nat inside source list 1 interface dialer0 overload <br/>
+    {% if form.rtr_series.data == '880' or form.rtr_series.data == '890' %}
+    interface vlan 50 <br/>
+    pppoe enable group global <br/>
+    pppoe-client dial-pool-number 1 <br/>
+    ! <br/>
+    interface dialer0 <br/>
+    ip address negotiated <br/>
+    ip access-group ACL-INFRASTRUCTURE-IN in <br/>
+    no ip redirects <br/>
+    no ip proxy-arp <br/>
+    ip nat outside <br/>
+    ip inspect FWv4 out <br/>
+    ip virtual-reassembly in <br/>
+    encapsulation ppp <br/>
+    dialer pool 1 <br/>
+    ppp chap callin <br/>
+    ppp chap hostname router.isphostname <br/>
+    ppp chap password router.isppassword <br/>
+    no cdp enable <br/>
+    ! <br/>
+    interface FastEthernet0 <br/>
+    switchport mode access <br/>
+    switchport access vlan 50  <br/>
+    ! <br/>
+    interface vlan 1 <br/>
+    ip address {{ form.lan_ipv4_address.data }} {{ ipv4_subnet_mask }} <br/>
+    no ip proxy-arp <br/>
+    ip nat inside <br/>
+    ip virtual-reassembly in <br/>
+    ip tcp adjust-mss 1300 <br/>
+    exit <br/>
+    ! <br/>
+    ip route 0.0.0.0 0.0.0.0 dialer 0 <br/>
+    ! <br/>
+    ip nat inside source list 1 interface dialer0 overload <br/>
 
-{% endif %}
+    {% endif %}
 
-{% if form.rtr_series.data == '1100' %}
-{% endif %}
+    {% if form.rtr_series.data == '1100' %}
+    {% endif %}
 
-{% if form.rtr_series.data == '1900' or form.rtr_series.data == '2900' %}
-interface GigabitEthernet0/0 <br/>
-pppoe enable group global <br/>
-pppoe-client dial-pool-number 1 <br/>
-! <br/>
-interface dialer0 <br/>
-ip address negotiated <br/>
-ip access-group ACL-INFRASTRUCTURE-IN in <br/>
-no ip redirects <br/>
-no ip proxy-arp <br/>
-ip nat outside <br/>
-ip inspect FWv4 out <br/>
-ip virtual-reassembly in <br/>
-encapsulation ppp <br/>
-dialer pool 1 <br/>
-ppp chap callin <br/>
-ppp chap hostname router.isphostname <br/>
-ppp chap password router.isppassword <br/>
-no cdp enable <br/>
-! <br/>
-interface GigabitEthernet0/1 <br/>
-ip address {{ form.lan_ipv4_address.data }} {{ ipv4_subnet_mask }} <br/>
-no ip proxy-arp <br/>
-ip nat inside <br/>
-ip virtual-reassembly in <br/>
-ip tcp adjust-mss 1300 <br/>
-exit <br/>
-! <br/>
-ip route 0.0.0.0 0.0.0.0 dialer0 <br/>
-! <br/>
-ip nat inside source list 1 interface dialer0 overload <br/>
+    {% if form.rtr_series.data == '1900' or form.rtr_series.data == '2900' %}
+    interface GigabitEthernet0/0 <br/>
+    pppoe enable group global <br/>
+    pppoe-client dial-pool-number 1 <br/>
+    ! <br/>
+    interface dialer0 <br/>
+    ip address negotiated <br/>
+    ip access-group ACL-INFRASTRUCTURE-IN in <br/>
+    no ip redirects <br/>
+    no ip proxy-arp <br/>
+    ip nat outside <br/>
+    ip inspect FWv4 out <br/>
+    ip virtual-reassembly in <br/>
+    encapsulation ppp <br/>
+    dialer pool 1 <br/>
+    ppp chap callin <br/>
+    ppp chap hostname router.isphostname <br/>
+    ppp chap password router.isppassword <br/>
+    no cdp enable <br/>
+    ! <br/>
+    interface GigabitEthernet0/1 <br/>
+    ip address {{ form.lan_ipv4_address.data }} {{ ipv4_subnet_mask }} <br/>
+    no ip proxy-arp <br/>
+    ip nat inside <br/>
+    ip virtual-reassembly in <br/>
+    ip tcp adjust-mss 1300 <br/>
+    exit <br/>
+    ! <br/>
+    ip route 0.0.0.0 0.0.0.0 dialer0 <br/>
+    ! <br/>
+    ip nat inside source list 1 interface dialer0 overload <br/>
 
-{% endif %}
+    {% endif %}
 
-{% if form.rtr_series.data == '4000' %}
-{% endif %}
-{% endif %}
+    {% if form.rtr_series.data == '4000' %}
+    {% endif %}
+    {% endif %}
 
-{% if form.wan_auth_type.data == 'PPPoE' and (form.wan_technology_type.data == 'FTTN' or form.wan_technology_type.data == 'FTTC') %}
+    {% if form.wan_auth_type.data == 'PPPoE' and (form.wan_technology_type.data == 'FTTN' or form.wan_technology_type.data == 'FTTC') %}
 
-{% if form.rtr_series.data == '880' or form.rtr_series.data == '890' %}
-interface ethernet0 <br/>
-pppoe enable group global <br/>
-pppoe-client dial-pool-number 1 <br/>
-! <br/>
-interface dialer0 <br/>
-ip address negotiated <br/>
-ip access-group ACL-INFRASTRUCTURE-IN in <br/>
-no ip redirects <br/>
-no ip proxy-arp <br/>
-ip nat outside <br/>
-ip inspect FWv4 out <br/>
-ip virtual-reassembly in <br/>
-encapsulation ppp <br/>
-dialer pool 1 <br/>
-ppp chap callin <br/>
-ppp chap hostname router.isphostname <br/>
-ppp chap password router.isppassword <br/>
-no cdp enable <br/>
-! <br/>
-interface vlan 1 <br/>
-ip address {{ form.lan_ipv4_address.data }} {{ ipv4_subnet_mask }} <br/>
-no ip proxy-arp <br/>
-ip nat inside <br/>
-ip virtual-reassembly in <br/>
-ip tcp adjust-mss 1300 <br/>
-exit <br/>
-! <br/>
-ip route 0.0.0.0 0.0.0.0 dialer 0 <br/>
-! <br/>
-ip nat inside source list 1 interface dialer0 overload <br/>
+    {% if form.rtr_series.data == '880' or form.rtr_series.data == '890' %}
+    interface ethernet0 <br/>
+    pppoe enable group global <br/>
+    pppoe-client dial-pool-number 1 <br/>
+    ! <br/>
+    interface dialer0 <br/>
+    ip address negotiated <br/>
+    ip access-group ACL-INFRASTRUCTURE-IN in <br/>
+    no ip redirects <br/>
+    no ip proxy-arp <br/>
+    ip nat outside <br/>
+    ip inspect FWv4 out <br/>
+    ip virtual-reassembly in <br/>
+    encapsulation ppp <br/>
+    dialer pool 1 <br/>
+    ppp chap callin <br/>
+    ppp chap hostname router.isphostname <br/>
+    ppp chap password router.isppassword <br/>
+    no cdp enable <br/>
+    ! <br/>
+    interface vlan 1 <br/>
+    ip address {{ form.lan_ipv4_address.data }} {{ ipv4_subnet_mask }} <br/>
+    no ip proxy-arp <br/>
+    ip nat inside <br/>
+    ip virtual-reassembly in <br/>
+    ip tcp adjust-mss 1300 <br/>
+    exit <br/>
+    ! <br/>
+    ip route 0.0.0.0 0.0.0.0 dialer 0 <br/>
+    ! <br/>
+    ip nat inside source list 1 interface dialer0 overload <br/>
 
-{% endif %}
+    {% endif %}
 
-{% if form.rtr_series.data == '1100' %}
-{% endif %}
+    {% if form.rtr_series.data == '1100' %}
+    {% endif %}
 
-{% if form.rtr_series.data == '1900' or form.rtr_series.data == '2900' %}
-interface ethernet 0/0/0 <br/>
-pppoe enable group global <br/>
-pppoe-client dial-pool-number 1 <br/>
-! <br/>
-interface dialer0 <br/>
-ip address negotiated <br/>
-ip access-group ACL-INFRASTRUCTURE-IN in <br/>
-no ip redirects <br/>
-no ip proxy-arp <br/>
-ip nat outside <br/>
-ip inspect FWv4 out <br/>
-ip virtual-reassembly in <br/>
-encapsulation ppp <br/>
-dialer pool 1 <br/>
-ppp chap callin <br/>
-ppp chap hostname router.isphostname <br/>
-ppp chap password router.isppassword <br/>
-no cdp enable <br/>
-! <br/>
-interface GigabitEthernet0/1 <br/>
-ip address {{ form.lan_ipv4_address.data }} {{ ipv4_subnet_mask }} <br/>
-no ip proxy-arp <br/>
-ip nat inside <br/>
-ip virtual-reassembly in <br/>
-ip tcp adjust-mss 1300 <br/>
-exit <br/>
-! <br/>
-ip route 0.0.0.0 0.0.0.0 dialer 0 <br/>
-! <br/>
-ip nat inside source list 1 interface dialer0 overload <br/>
+    {% if form.rtr_series.data == '1900' or form.rtr_series.data == '2900' %}
+    interface ethernet 0/0/0 <br/>
+    pppoe enable group global <br/>
+    pppoe-client dial-pool-number 1 <br/>
+    ! <br/>
+    interface dialer0 <br/>
+    ip address negotiated <br/>
+    ip access-group ACL-INFRASTRUCTURE-IN in <br/>
+    no ip redirects <br/>
+    no ip proxy-arp <br/>
+    ip nat outside <br/>
+    ip inspect FWv4 out <br/>
+    ip virtual-reassembly in <br/>
+    encapsulation ppp <br/>
+    dialer pool 1 <br/>
+    ppp chap callin <br/>
+    ppp chap hostname router.isphostname <br/>
+    ppp chap password router.isppassword <br/>
+    no cdp enable <br/>
+    ! <br/>
+    interface GigabitEthernet0/1 <br/>
+    ip address {{ form.lan_ipv4_address.data }} {{ ipv4_subnet_mask }} <br/>
+    no ip proxy-arp <br/>
+    ip nat inside <br/>
+    ip virtual-reassembly in <br/>
+    ip tcp adjust-mss 1300 <br/>
+    exit <br/>
+    ! <br/>
+    ip route 0.0.0.0 0.0.0.0 dialer 0 <br/>
+    ! <br/>
+    ip nat inside source list 1 interface dialer0 overload <br/>
 
-{% endif %}
+    {% endif %}
 
-{% if form.rtr_series.data == '4000' %}
-{% endif %}
-{% endif %}
+    {% if form.rtr_series.data == '4000' %}
+    {% endif %}
+    {% endif %}
 
-{% endif %}
-</div>
+    {% endif %}
   </div>
+</div>
 {% endblock %}

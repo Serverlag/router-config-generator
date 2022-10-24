@@ -56,7 +56,7 @@ class ConfigForm(FlaskForm):
     )
     lan_ipv4_address = StringField(
         'LAN IPv4 address',
-        [IPAddress(ipv4=True, ipv6=True, message='Please enter a valid IPv4 or IPv6 address')]
+        [IPAddress(ipv4=True, ipv6=False, message='Please enter a valid IPv4 address')]
     )
     lan_ipv4_cidr_prefix_size = SelectField(
         'LAN IPv4 Prefix Size (CIDR)', choices=[('/31'), ('/30'), ('/29'), ('/28'), ('/27'), ('/26'), ('/25'), ('/24'), ('/23'), ('/22'), ('/21'), ('/20'), ('/19'), ('/18'), ('/17'), ('/16')], default=('/24')
