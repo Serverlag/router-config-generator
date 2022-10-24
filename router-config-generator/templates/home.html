@@ -15,12 +15,16 @@ onload="clearForm()"
     var checked = document.getElementById('lan_dhcpv4_exclusions').checked
     if (checked)
     {
-      document.getElementById('lan_dhcpv4_excluded_first').style.display = "flex"
-      document.getElementById('lan_dhcpv4_excluded_last').style.display = "flex"
+      document.getElementById('lan_dhcpv4_excluded_first_label').removeAttribute("style")
+      document.getElementById('lan_dhcpv4_excluded_first_input').removeAttribute("style")
+      document.getElementById('lan_dhcpv4_excluded_last_label').removeAttribute("style")
+      document.getElementById('lan_dhcpv4_excluded_last_input').removeAttribute("style")
     }
     else {
-      document.getElementById('lan_dhcpv4_excluded_first').style.display = "none"
-      document.getElementById('lan_dhcpv4_excluded_last').style.display = "none"
+      document.getElementById('lan_dhcpv4_excluded_first_label').style.display = "none"
+      document.getElementById('lan_dhcpv4_excluded_first_input').style.display = "none"
+      document.getElementById('lan_dhcpv4_excluded_last_label').style.display = "none"
+      document.getElementById('lan_dhcpv4_excluded_last_input').style.display = "none"
     }
   }
   
@@ -34,165 +38,179 @@ onload="clearForm()"
   document.forms.ConfigForm.reset();
   }
 </script>
-<div class="title">
-<h1>Router Config Generator</h1>
+<div class="flex justify-center h-[calc(100vh-3.5rem)]">
+  <form method="POST" action="{{ url_for('home') }}" class="flex justify-center items-center flex-wrap pt-2 bg-white w-3/4 rounded-md">
+    {{ form.hidden_tag() }}
+    <div class="basis-1/4 pb-4">
+      {{ form.rtr_hostname.label(class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4") }}
+    </div>
+    <div class="basis-1/4 pb-4">
+      {{ form.rtr_hostname(class="bg-white appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:border-black") }}
+    </div>
+    <div class="basis-1/4 pb-4">
+      {{ form.dns_suffix.label(class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4") }}
+    </div>
+    <div class="basis-1/4 pb-4">
+      {{ form.dns_suffix(class="bg-white appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:border-black") }}
+    </div>
+    <div class="basis-1/4 pb-4">
+      {{ form.tz_name.label(class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4") }}
+    </div>
+    <div class="basis-1/4 pb-4">
+      {{ form.tz_name(class="bg-white border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-black") }}
+    </div>
+    <div class="basis-1/4 pb-4">
+      {{ form.tz_offset.label(class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4") }}
+    </div>
+    <div class="basis-1/4 pb-4">
+      {{ form.tz_offset(class="bg-white appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:border-black") }}
+    </div>
+    <div class="basis-1/4 pb-4">
+      {{ form.dns_resolver_primary_ipv4.label(class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4") }}
+    </div>
+    <div class="basis-1/4 pb-4">
+      {{ form.dns_resolver_primary_ipv4(class="bg-white appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:border-black") }}
+      {% if form.dns_resolver_primary_ipv4.errors %}
+      <ul class="text-red-500">
+        {% for error in form.dns_resolver_primary_ipv4.errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+    <div class="basis-1/4 pb-4">
+      {{ form.dns_resolver_secondary_ipv4.label(class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4") }}
+    </div>
+    <div class="basis-1/4 pb-4">
+      {{ form.dns_resolver_secondary_ipv4(class="bg-white appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:border-black") }}
+      {% if form.dns_resolver_secondary_ipv4.errors %}
+      <ul class="text-red-500">
+        {% for error in form.dns_resolver_secondary_ipv4.errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+    <div class="basis-1/4 pb-4">
+      {{ form.dns_resolver_primary_ipv6.label(class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4") }}
+    </div>
+    <div class="basis-1/4 pb-4">
+      {{ form.dns_resolver_primary_ipv6(class="bg-white appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:border-black") }}
+      {% if form.dns_resolver_primary_ipv6.errors %}
+      <ul class="text-red-500">
+        {% for error in form.dns_resolver_primary_ipv6.errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+    <div class="basis-1/4 pb-4">
+      {{ form.dns_resolver_secondary_ipv6.label(class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4") }}
+    </div>
+    <div class="basis-1/4 pb-4">
+      {{ form.dns_resolver_secondary_ipv6(class="bg-white appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:border-black") }}
+      {% if form.dns_resolver_secondary_ipv6.errors %}
+      <ul class="text-red-500">
+        {% for error in form.dns_resolver_secondary_ipv6.errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+    <div class="basis-1/4 pb-4">
+      {{ form.rtr_admin_username.label(class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4") }}
+    </div>
+    <div class="basis-1/4 pb-4">
+      {{ form.rtr_admin_username(class="bg-white appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:border-black") }}
+    </div>
+    <div class="basis-1/4 pb-4">
+      {{ form.rtr_admin_password.label(class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4") }}
+    </div>
+    <div class="basis-1/4 pb-4">
+      {{ form.rtr_admin_password(class="bg-white appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:border-black") }}
+    </div>
+    <div class="basis-1/4 pb-4">
+      {{ form.lan_ipv4_address.label(class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4") }}
+    </div>
+    <div class="basis-1/4 pb-4">
+      {{ form.lan_ipv4_address(class="bg-white appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:border-black") }}
+      {% if form.lan_ipv4_address.errors %}
+      <ul class="text-red-500">
+        {% for error in form.lan_ipv4_address.errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+    <div class="basis-1/4 pb-4">
+      {{ form.lan_ipv4_cidr_prefix_size.label(class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4") }}
+    </div>
+    <div class="basis-1/4 pb-4">
+      {{ form.lan_ipv4_cidr_prefix_size(class="bg-white border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-black") }}
+    </div>
+    <div class="basis-1/4 pb-4">
+      {{ form.lan_dhcpv4_server.label(class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4") }}
+    </div>
+    <div class="basis-1/4 pb-4">
+      {{ form.lan_dhcpv4_server }}
+    </div>
+    <div class="basis-1/4 pb-4">
+      {{ form.lan_dhcpv4_exclusions.label(class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4") }}
+    </div>
+    <div class="basis-1/4 pb-4">
+      {{ form.lan_dhcpv4_exclusions(onclick="check_dhcpv4_exclusions()") }}
+    </div>
+    <div class="basis-1/4 pb-4" id="lan_dhcpv4_excluded_first_label" style="display: none">
+      {{ form.lan_dhcpv4_excluded_first.label(class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4") }}
+    </div>
+    <div class="basis-1/4 pb-4" id="lan_dhcpv4_excluded_first_input" style="display: none">
+      {{ form.lan_dhcpv4_excluded_first(class="bg-white appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:border-black") }}
+      {% if form.lan_dhcpv4_excluded_first.errors %}
+      <ul class="text-red-500">
+        {% for error in form.lan_dhcpv4_excluded_first.errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+    <div class="basis-1/4 pb-4" id="lan_dhcpv4_excluded_last_label" style="display: none">
+      {{ form.lan_dhcpv4_excluded_last.label(class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4") }}
+    </div>
+    <div class="basis-1/4 pb-4" id="lan_dhcpv4_excluded_last_input" style="display: none">
+      {{ form.lan_dhcpv4_excluded_last(class="bg-white appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:border-black") }}
+      {% if form.lan_dhcpv4_excluded_last.errors %}
+      <ul class="text-red-500">
+        {% for error in form.lan_dhcpv4_excluded_last.errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+    <div class="basis-1/4 pb-4">
+      {{ form.wan_technology_type.label(class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4") }}
+    </div>
+    <div class="basis-1/4 pb-4">
+      {{ form.wan_technology_type(class="bg-white border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-black") }}
+    </div>
+    <div class="basis-1/4 pb-4">
+      {{ form.wan_auth_type.label(class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4") }}
+    </div>
+    <div class="basis-1/4 pb-4">
+      {{ form.wan_auth_type(class="bg-white border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-black") }}
+    </div>
+    <div class="basis-1/4 pb-4">
+      {{ form.rtr_vendor.label(class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4") }}
+    </div>
+    <div class="basis-1/4 pb-4">
+      {{ form.rtr_vendor(class="bg-white border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-black") }}
+    </div>
+    <div class="basis-1/4 pb-4">
+      {{ form.rtr_series.label(class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4") }}
+    </div>
+    <div class="basis-1/4 pb-4">
+      {{ form.rtr_series(class="bg-white border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-black") }}
+    </div>
+    {{ form.generate(class="bg-blue-500 hover:bg-blue-900 focus:outline-none rounded-md px-4 py-2 text-white duration-200 font-semibold") }}
+  </form>
 </div>
-<div class="form-wrapper">
-    <form method="POST" action="{{ url_for('home') }}" id="ConfigForm">
-      {{ form.hidden_tag() }}
-
-        <fieldset class="form-field">
-            {{ form.rtr_hostname.label }}
-            {{ form.rtr_hostname }}
-        </fieldset>
-
-        <fieldset class="form-field">
-            {{ form.dns_suffix.label }}
-            {{ form.dns_suffix }}
-        </fieldset>
-
-        <fieldset class="form-field">
-            {{ form.tz_name.label }}
-            {{ form.tz_name }}
-        </fieldset>
-
-        <fieldset class="form-field">
-            {{ form.tz_offset.label }}
-            {{ form.tz_offset }}
-        </fieldset>
-
-        <fieldset class="form-field">
-            {{ form.dns_resolver_primary_ipv4.label }}
-            {{ form.dns_resolver_primary_ipv4 }}
-            {% if form.dns_resolver_primary_ipv4.errors %}
-            <ul class="errors">
-              {% for error in form.dns_resolver_primary_ipv4.errors %}
-                <li>{{ error }}</li>
-              {% endfor %}
-            </ul>
-          {% endif %}
-        </fieldset>
-
-        <fieldset class="form-field">
-            {{ form.dns_resolver_secondary_ipv4.label }}
-            {{ form.dns_resolver_secondary_ipv4 }}
-            {% if form.dns_resolver_secondary_ipv4.errors %}
-            <ul class="errors">
-              {% for error in form.dns_resolver_secondary_ipv4.errors %}
-                <li>{{ error }}</li>
-              {% endfor %}
-            </ul>
-          {% endif %}
-        </fieldset>
-
-        <fieldset class="form-field">
-            {{ form.dns_resolver_primary_ipv6.label }}
-            {{ form.dns_resolver_primary_ipv6 }}
-            {% if form.dns_resolver_primary_ipv6.errors %}
-            <ul class="errors">
-              {% for error in form.dns_resolver_primary_ipv6.errors %}
-                <li>{{ error }}</li>
-              {% endfor %}
-            </ul>
-          {% endif %}
-        </fieldset>
-
-        <fieldset class="form-field">
-            {{ form.dns_resolver_secondary_ipv6.label }}
-            {{ form.dns_resolver_secondary_ipv6 }}
-            {% if form.dns_resolver_secondary_ipv6.errors %}
-            <ul class="errors">
-              {% for error in form.dns_resolver_secondary_ipv6.errors %}
-                <li>{{ error }}</li>
-              {% endfor %}
-            </ul>
-          {% endif %}
-        </fieldset>
-
-
-        <fieldset class="form-field">
-            {{ form.rtr_admin_username.label }}
-            {{ form.rtr_admin_username }}
-        </fieldset>
-
-        <fieldset class="form-field">
-            {{ form.rtr_admin_password.label }}
-            {{ form.rtr_admin_password }}
-        </fieldset>
-
-        <fieldset class="form-field">
-            {{ form.lan_ipv4_address.label }}
-            {{ form.lan_ipv4_address }}
-            {% if form.lan_ipv4_address.errors %}
-            <ul class="errors">
-              {% for error in form.lan_ipv4_address.errors %}
-                <li>{{ error }}</li>
-              {% endfor %}
-            </ul>
-          {% endif %}
-        </fieldset>
-
-        <fieldset class="form-field">
-            {{ form.lan_ipv4_cidr_prefix_size.label }}
-            {{ form.lan_ipv4_cidr_prefix_size }}
-        </fieldset>
-
-        <fieldset class="form-field">
-          {{ form.lan_dhcpv4_server.label }}
-          {{ form.lan_dhcpv4_server }}
-        </fieldset>
-
-        <fieldset class="form-field">
-          {{ form.lan_dhcpv4_exclusions.label }}
-          {{ form.lan_dhcpv4_exclusions(onclick="check_dhcpv4_exclusions()") }}
-        </fieldset>
-
-        <fieldset class="form-field" id="lan_dhcpv4_excluded_first" style="display: none">
-          {{ form.lan_dhcpv4_excluded_first.label }}
-          {{ form.lan_dhcpv4_excluded_first }}
-          {% if form.lan_dhcpv4_excluded_first.errors %}
-          <ul class="errors">
-            {% for error in form.lan_dhcpv4_excluded_first.errors %}
-              <li>{{ error }}</li>
-            {% endfor %}
-          </ul>
-          {% endif %}
-        </fieldset>
-
-        <fieldset class="form-field" id="lan_dhcpv4_excluded_last" style="display: none">
-          {{ form.lan_dhcpv4_excluded_last.label }}
-          {{ form.lan_dhcpv4_excluded_last }}
-          {% if form.lan_dhcpv4_excluded_last.errors %}
-          <ul class="errors">
-            {% for error in form.lan_dhcpv4_excluded_last.errors %}
-              <li>{{ error }}</li>
-            {% endfor %}
-          </ul>
-          {% endif %}
-        </fieldset>
-
-        <fieldset class="form-field">
-            {{ form.wan_technology_type.label }}
-            {{ form.wan_technology_type }}
-        </fieldset>
-
-        <fieldset class="form-field">
-            {{ form.wan_auth_type.label }}
-            {{ form.wan_auth_type }}
-        </fieldset>
-
-        <fieldset class="form-field">
-            {{ form.rtr_vendor.label }}
-            {{ form.rtr_vendor }}
-        </fieldset>
-
-        <fieldset class="form-field">
-            {{ form.rtr_series.label }}
-            {{ form.rtr_series }}
-        </fieldset>
-
-        {{ form.generate }}
-        
-    </form>
-  </div>
 {% endblock %}

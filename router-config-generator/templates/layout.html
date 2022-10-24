@@ -1,21 +1,33 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8" />
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %}{% endblock %}</title>
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='site.css')}}" />
+        <link rel="stylesheet" href="{{url_for('static',filename='dist/css/output.css')}}">
     </head>
-    <body {% block body_attrs %}{% endblock %}>
-        <div class="navbar">
-            <a href="{{ url_for('home') }}" class="navbar-brand">Home</a>
-        </div>
-
+    <body class="bg-gray-200 bg-opacity-25 font-sans leading-normal tracking-normal" {% block body_attrs %}{% endblock %}>
+        <nav class="bg-blue-600 p-2 mt-0 w-full">
+            <div class="container mx-auto flex flex-wrap items-center">
+                <div class="flex w-full md:w-1/2 justify-center md:justify-start text-white">
+                    <span class="text-xl pl-2 text-white font-bold">Router Config Generator</span>
+                </div>
+                <div class="flex w-full content-center justify-between md:w-1/2 md:justify-end">
+                    <ul class="list-reset flex justify-between flex-1 md:flex-none items-center">
+                        <li class="mr-3">
+                            <a class="inline-block py-2 px-4 text-white no-underline hover:bg-blue-900 hover:bg-opacity-25 duration-200 rounded-lg font-semibold" href="{{ url_for('home') }}">Home</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
         <div class="body-content">
             {% block content %}
             {% endblock %}
-            <hr/>
+            <!-- <hr/>
             <footer>
-            </footer>
+            </footer> -->
         </div>
     </body>
 </html>

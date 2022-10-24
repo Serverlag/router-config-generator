@@ -23,6 +23,8 @@ source router-config-generator/bin/activate
 python3 -m pip install --upgrade pip
 pip3 install -r requirements.txt
 cd router-config-generator
+npm install -D tailwindcss
+npx tailwindcss -i ./static/src/input.css -o ./static/dist/css/output.css
 gunicorn --bind 0.0.0.0:5000 wsgi:app
 ```
 
